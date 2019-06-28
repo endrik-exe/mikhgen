@@ -75,7 +75,6 @@ return [
 **NOTES:**
 - Database tidak akan dibuat secara otomatis, anda harus membuat databasenya secara manual, sebelum menjalankan aplikasi
 - Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
 
 
 FITUR
