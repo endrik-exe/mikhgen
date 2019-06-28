@@ -339,12 +339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "b22e508d2db967630445c553572d1e9eb997ecef"
+                "reference": "b80d74f2e88cd40b56adc58804a07a59ac30dc47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b22e508d2db967630445c553572d1e9eb997ecef",
-                "reference": "b22e508d2db967630445c553572d1e9eb997ecef",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b80d74f2e88cd40b56adc58804a07a59ac30dc47",
+                "reference": "b80d74f2e88cd40b56adc58804a07a59ac30dc47",
                 "shasum": ""
             },
             "require": {
@@ -393,7 +393,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2019-04-21T09:22:17+00:00"
+            "time": "2019-06-27T10:22:34+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
@@ -2897,12 +2897,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "a2e6f67b286cf6735437b6e88f38cfee72405d36"
+                "reference": "4e3a7ad90654f30666e8343d88570071523ae64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/a2e6f67b286cf6735437b6e88f38cfee72405d36",
-                "reference": "a2e6f67b286cf6735437b6e88f38cfee72405d36",
+                "url": "https://api.github.com/repos/symfony/console/zipball/4e3a7ad90654f30666e8343d88570071523ae64b",
+                "reference": "4e3a7ad90654f30666e8343d88570071523ae64b",
                 "shasum": ""
             },
             "require": {
@@ -2964,7 +2964,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-13T11:05:05+00:00"
+            "time": "2019-06-20T15:01:49+00:00"
         },
         {
             "name": "symfony/css-selector",

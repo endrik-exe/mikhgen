@@ -3,78 +3,86 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
+use app\assets\MainAsset;
 
-AppAsset::register($this);
+MainAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script>
+        window.readyHandlers = [];
+        window.ready = function ready(handler) {
+          window.readyHandlers.push(handler);
+          handleState();
+        };
+
+        window.handleState = function handleState () {
+          if (['interactive', 'complete'].indexOf(document.readyState) > -1) {
+            while(window.readyHandlers.length > 0) {
+              (window.readyHandlers.shift())();
+            }
+          }
+        };
+
+        document.onreadystatechange = window.handleState;
+        
+        function loadPage()
+        {
+            $('.page-loader.modal').modal({
+                dimmerSettings: {
+                    variation: 'inverted'
+                },
+                onHide: function(){
+                    $('.main.wrap').show();
+                }
+            }).modal('show');
+        }
+        
+        function loadFinish()
+        {
+            setTimeout(() => {
+                $('.page-loader.modal').modal('hide');
+            }, 400);
+        }
+        
+        function unloadPage()
+        {
+            alert('Bye Now');
+        }
+    </script>
 </head>
-<body>
+<body onunload="unloadPage()" >
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+<div class="ui basic page-loader modal">
+    <div class="ui active centered text loader">LOADING</div>
+</div>
+<script>
+    window.addEventListener('load', function(){
+        loadFinish();
+    });
+    window.addEventListener('beforeunload', function(){
+        loadPage();
+    });
+    loadPage();
+</script>
+<?php if (Yii::$app->user->identity) echo $this->render('header'); ?>
+<div class="main wrap" style="display: none; overflow-x: hidden; padding-top: 65px;" >
+    <?= $content ?>
 </div>
 
 <footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
+    
 </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>

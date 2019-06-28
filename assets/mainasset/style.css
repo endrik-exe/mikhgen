@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 9, 2018, 4:56:32 PM
+    Author     : endrik-exe
+*/
+
+.nomargin, .ui.grid.nomargin, .ui.header.nomargin {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+.lowercase, .ui.sub.header.lowercase {
+    text-transform: lowercase;
+}
+.normalcase, .ui.sub.header.normalcase {
+    text-transform: none;
+}
+
+body {
+    max-width: 600px;
+    background-color: #d6d6d6;
+    margin-left: auto;
+    margin-right: auto;
+}
+body > .main.wrap{
+    background-color: white;
+}
+body > .nav.segment
+{
+    border-radius: 0px;
+    margin-top: 0px;
+    position: fixed;
+    z-index: 100;
+    left: 0px;
+    right: 0px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-right {
+    text-align: right;
+}
