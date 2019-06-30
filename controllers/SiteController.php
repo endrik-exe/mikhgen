@@ -2,16 +2,14 @@
 namespace app\controllers;
 
 use app\controllers\MainController;
-use app\components\AppHelper;
-use app\models\LoginForm;
-use DateTime;
 use app\models\ContactForm;
+use app\models\DashboardOverview;
+use app\models\LoginForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use Yii;
 use yii\base\InvalidParamException;
-use yii\helpers\Json;
 use yii\web\BadRequestHttpException;
 use const YII_ENV_TEST;
 
@@ -45,76 +43,16 @@ class SiteController extends MainController
      */
     public function actionIndex()
     {
-        $sales = [];
-        $thisMonthSale = 0;
-        $thisMonthSaleCount = 0;
-        $thisDaySale = 0;
-        $thisDaySaleCount = 0;
+        $model = new DashboardOverview();
         
-        $agenCode = Yii::$app->request->post('agenCode', 'PBR');
-        $code = strtoupper("$agenCode-".activeMonth());
+        //ACTUALL LOAD POST DATA
+        $model->agenCode = 'PBR-JUN';
+        $model->year = 2019;
+        $model->month = 6;
         
-        $api = AppHelper::getApi();
-        if ($api)
-        {
-            //SALEDATE-|-SELLTIME-|-NAME-|-PRICE-|-IP-|-MAC-|-DURATION-|-VCNAME-|-COMMENT
-            $query = $api->comm("/system/script/print", [
-                '?comment' => 'mikhmon',
-                '?owner' => 'jun2019'
-            ]);
-           
-            Yii::trace(Json::encode($query));
-            
-            $sales = [];
-            foreach ($query as $str)
-            {
-                $data = explode( '-|-', $str['name']);
-                
-                $saleDate = DateTime::createFromFormat('M/d/Y', $data[0])->format('Y-m-d');
-                $sale = [
-                    'saleDate' => $saleDate,
-                    'saleTime' => DateTime::createFromFormat('Y-m-d H:i:s', "$saleDate ".$data[1])->format('Y-m-d H:i:s'),
-                    'name' => $data[2],
-                    'price' => floatVal($data[3]),
-                    'ip' => $data[4],
-                    'mac' => $data[5],
-                    'duration' => $data[6],
-                    'profile' => $data[7],
-                    'comment' => $data[8]
-                ];
-                
-                if (strpos($sale['comment'], $code) === false) continue;
-                
-                $thisMonthSale += $sale['price'];
-                $thisMonthSaleCount++;
-                if (date('Y-m-d') == $sale['saleDate'])
-                {
-                    $thisDaySale += $sale['price'];
-                    $thisDaySaleCount++;
-                }
-                
-                $sales[] = $sale;
-            }
-        }
-        else
-        {
-            return 'no api';
-        }
-        
-        $bonus = 0.0;
-        if ($thisMonthSale > 200000) $bonus = 8.0;
-        if ($thisMonthSale > 300000) $bonus = 10.0;
-        if ($thisMonthSale > 500000) $bonus = 15.0;
-        
-        
+        $model->getSales();
         return $this->render('index', [
-            'sales' => $sales,
-            'thisMonthSale' => $thisMonthSale,
-            'thisMonthSaleCount' => $thisMonthSaleCount,
-            'thisDaySale' => $thisDaySale,
-            'thisDaySaleCount' => $thisDaySaleCount,
-            'bonus' => $bonus,
-            'bonusAdjustment' => 2200,
+            'model' => $model,
         ]);
     }
 

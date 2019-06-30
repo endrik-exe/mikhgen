@@ -2,6 +2,8 @@
 
 namespace app\components;
 
+use Yii;
+
 class AppHelper
 {
     public static $monthCode = [
@@ -19,15 +21,22 @@ class AppHelper
         12 => 'DES'
     ];
     
+    private static $_api = null;
     public static function getApi()
     {
-        $API = new RouterosAPI();
-        //$API->debug = true;
-        
-        if ($API->connect('192.168.10.1', 'apicaller', 'nkingapicaller2019')) {
-            return $API;
+        if (!self::$_api)
+        {
+            $newApi = new RouterosAPI();
+            //$API->debug = true;
+
+            if ($newApi->connect('192.168.10.1', 
+                Yii::$app->params['apiUserName'], 
+                Yii::$app->params['apiUserPassword'])
+            ) {
+                $_api = $newApi;
+            }
         }
         
-        return null;
+        return $_api;
     }
 }

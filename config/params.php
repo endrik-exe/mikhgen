@@ -4,4 +4,6 @@ return [
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
+    'apiUserName' => 'apicaller',
+    'apiUserPassword' => 'nkingapicaller2019',
 ];

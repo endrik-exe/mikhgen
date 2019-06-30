@@ -7,11 +7,11 @@ use yii\helpers\Url;
 
 $this->title = 'Agen nKing';
 
-$pendapatanBasis = $thisMonthSale * (20.0 / 100.0);
-$pendapatanBonus = $thisMonthSale * ($bonus / 100.0);
+$pendapatanBasis = $model->thisMonthSale * (20.0 / 100.0);
+$pendapatanBonus = $model->thisMonthSale * ($model->bonus / 100.0);
 
-$totalPendapatan = $pendapatanBasis + $pendapatanBonus + $bonusAdjustment;
-$totalDisetor = $thisMonthSale - $totalPendapatan;
+$totalPendapatan = $pendapatanBasis + $pendapatanBonus + $model->bonusAdjustment;
+$totalDisetor = $model->thisMonthSale - $totalPendapatan;
 ?>
 
 <style>
@@ -89,18 +89,18 @@ $totalDisetor = $thisMonthSale - $totalPendapatan;
     <div class="ui two tiny statistics">
         <div class="blue statistic">
             <div class="value">
-                <i class="chart line icon"></i> <?= $thisDaySaleCount ?> vcr
+                <i class="chart line icon"></i> <?= $model->thisDaySaleCount ?> vcr
             </div>
             <div class="label">
-                Hari Ini, Rp. <?= floatToDecimal($thisDaySale) ?>
+                Hari Ini, Rp. <?= floatToDecimal($model->thisDaySale) ?>
             </div>
         </div>
         <div class="red statistic">
             <div class="value">
-                <i class="calendar alternate outline icon"></i> <?= $thisMonthSaleCount ?> vcr
+                <i class="calendar alternate outline icon"></i> <?= $model->thisMonthSaleCount ?> vcr
             </div>
             <div class="label">
-                Bulan Ini, Rp. <?= floatToDecimal($thisMonthSale) ?>
+                Bulan Ini, Rp. <?= floatToDecimal($model->thisMonthSale) ?>
             </div>
         </div>
     </div>
@@ -116,8 +116,8 @@ $totalDisetor = $thisMonthSale - $totalPendapatan;
         <tbody>
             <tr>
                 <td>Total Penjualan</td>
-                <td><?= $thisMonthSaleCount ?> vcr</td>
-                <td style="text-align: right;"><?= floatToDecimal($thisMonthSale) ?></td>
+                <td><?= $model->thisMonthSaleCount ?> vcr</td>
+                <td style="text-align: right;"><?= floatToDecimal($model->thisMonthSale) ?></td>
             </tr>
             <tr>
                 <td>Pendapatan Basis</td>
@@ -126,22 +126,22 @@ $totalDisetor = $thisMonthSale - $totalPendapatan;
             </tr>
             <tr>
                 <td>Pendapatan Bonus</td>
-                <td><?= $bonus ?>%</td> <!-- 8, 10, 15 -->
+                <td><?= $model->bonus ?>%</td> <!-- 8, 10, 15 -->
                 <td style="text-align: right;"><?= floatToDecimal($pendapatanBonus) ?></td>
             </tr>
             <tr>
                 <td>Bonus Adjustment</td>
                 <td></td> <!-- 8, 10, 15 -->
-                <td style="text-align: right;"><?= floatToDecimal($bonusAdjustment) ?></td>
+                <td style="text-align: right;"><?= floatToDecimal($model->bonusAdjustment) ?></td>
             </tr>
             <tr>
                 <td>Total Yang Didapat</td>
-                <td><?= round((100 / $thisMonthSale) * $totalPendapatan, 2) ?>%</td> <!-- 8, 10, 15 -->
+                <td><?= round((100 / $model->thisMonthSale) * $totalPendapatan, 2) ?>%</td> <!-- 8, 10, 15 -->
                 <td style="text-align: right;"><?= floatToDecimal($totalPendapatan) ?></td>
             </tr>
             <tr>
                 <td>Total Yang Disetor</td>
-                <td><?= round((100 / $thisMonthSale) * $totalDisetor, 2) ?>%</td> <!-- 8, 10, 15 -->
+                <td><?= round((100 / $model->thisMonthSale) * $totalDisetor, 2) ?>%</td> <!-- 8, 10, 15 -->
                 <td style="text-align: right;"><?= floatToDecimal($totalDisetor) ?></td>
             </tr>
         </tbody>
