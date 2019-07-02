@@ -1,5 +1,6 @@
+<h1 align="center">MIKHGEN</h1>
 <p align="center">
-    <h1 align="center">MIKHGEN</h1>
+    <img align="center" src="https://media.giphy.com/media/YoE5bm8H2muwIvc0Dj/giphy.gif">
 </p>
 
 Mikhgen adalah aplikasi Agen Hotspot agar bisa memonitor penghasilannya, aplikasi ini simple, hanya menarik laporan penjualan dari mikrotik, aplikasi ini harus di padukan dengan Mikhmon v2.
