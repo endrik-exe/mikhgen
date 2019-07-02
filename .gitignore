@@ -35,3 +35,4 @@ tests/_support/_generated
 /vendor/**/.git
 /web/assets
 /config/db.php
+/config/params.php

@@ -5,5 +5,5 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'apiUserName' => 'apicaller',
-    'apiUserPassword' => 'nkingapicaller2019',
+    'apiUserPassword' => 'warmachine',
 ];

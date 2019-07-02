@@ -51,7 +51,7 @@ use yii\bootstrap\ActiveForm;
         <?php $form->end() ?>
 
         <div class="ui message">
-            Ingin bergaung? hubungi 085885562126
+            Ingin bergaung? hubungi 085885562xxx
         </div>
     </div>
 </div>
