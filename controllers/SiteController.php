@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\controllers\MainController;
+use app\models\BonusAdjustment;
 use app\models\ContactForm;
 use app\models\DashboardOverview;
 use app\models\LoginForm;
@@ -46,16 +47,26 @@ class SiteController extends MainController
         $model = new DashboardOverview();
         
         //ACTUALL LOAD POST DATA
-        $model->agenCode = 'PBR-JUN';
-        $model->year = 2019;
-        $model->month = 6;
+        $model->agenCode = Yii::$app->user->identity->agenCode;
+        $model->year = intval(date('Y'));
+        $model->month = intval(date('m'));
+        
+        $model->load(Yii::$app->request->post());
+        
+        $model->bonusAdjustment = BonusAdjustment::get($model->agenCode, $model->year, $model->month);
+        
+        if(Yii::$app->request->post('adjust-bonus'))
+            BonusAdjustment::adjust ($model->agenCode, $model->year, $model->month,
+                Yii::$app->request->post('adjust-bonus'));
+        
+        if ($model->month == 6) $model->agenCode .= '-JUN';
         
         $model->getSales();
         return $this->render('index', [
             'model' => $model,
         ]);
     }
-
+    
     /**
      * Logs in a user.
      *
@@ -76,12 +87,10 @@ class SiteController extends MainController
                 return $this->goBack();
             }
             
-            (new \common\models\User([
+            /*(new User([
                 'userName' => $model->userName,
                 'passwordHash' => Yii::$app->security->generatePasswordHash($model->password),
-            ]))->save();
-            
-            
+            ]))->save();*/
         }
         
         return $this->render('login', [

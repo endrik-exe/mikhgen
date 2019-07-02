@@ -11,12 +11,14 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
+ * @property integer $roleId
  * @property string $userName
  * @property string $passwordHash
  * @property string $passwordResetToken
  * @property string $email
  * @property string $authKey
  * @property string $handphone
+ * @property string $agenCode
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -46,9 +48,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['userName', 'passwordHash'], 'required'],
-            [['userName', 'email', 'handphone'], 'string', 'max' => 45],
+            [['userName', 'email', 'handphone', 'agenCode'], 'string', 'max' => 45],
             [['passwordHash', 'passwordResetToken', 'authKey'], 'string', 'max' => 200],
             [['id'], 'number'],
+            [['roleId'], 'default', 'value' => 2],
         ];
     }
 

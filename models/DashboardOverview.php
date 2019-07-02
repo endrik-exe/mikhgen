@@ -44,7 +44,7 @@ class DashboardOverview extends Model
     public function getSales()
     {
         $sales = Sales::getSalesWith($this->agenCode, $this->year, $this->month, Sales::SOURCE_BOTH);
-        Yii::trace($sales, 'WKWK');
+        
         foreach($sales as $sale)
         {
             $this->thisMonthSale += $sale['price'];

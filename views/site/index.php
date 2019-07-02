@@ -1,9 +1,11 @@
 <?php
-/* @var $this yii\web\View */
+/* @var $this View */
 
-use common\assets\QuaggaAsset;
+use app\models\User;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
+use yii\web\View;
+use yii\widgets\ActiveForm;
 
 $this->title = 'Agen nKing';
 
@@ -28,62 +30,87 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
         min-width: 50px;
     }
 </style>
-<div class="ui vertical segment" style="padding: 1em;">
-    <div class="ui form filter">
-        <div class="fields">
-            <div class="field" style="width: 40%">
-                <label>Agen</label>
-                <div class="ui selection dropdown agenCode">
-                    <input type="hidden" name="agencode" value="PBR">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Agen</div>
-                    <div class="menu">
-                        <div class="item" data-value="PBR">PBR</div>
-                        <div class="item" data-value="MDR">MDR</div>
-                        <div class="item" data-value="BKN">BKN</div>
-                        <div class="item" data-value="HRD">HRD</div>
-                    </div>
+<div class="ui dimmer modal transition">
+    <div class="ui mini adjust-bonus modal transition">
+        <div class="header">Adjust Bonus</div>
+        <div class="content ui form">
+            <div class="field">
+                <label>Bonus Adjustment</label>
+                <div class="ui input">
+                    <input name="adjust-bonus" type="text" placeholder="num...">
                 </div>
-                <script>$('.dropdown.agenCode').dropdown();</script>
             </div>
-            <div class="field" style="width: 30%">
-                <label>Tahun</label>
-                <div class="ui selection dropdown tahun">
-                    <input type="hidden" name="tahun" value="2019">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Tahun</div>
-                    <div class="menu">
-                        <div class="item" data-value="2019">2019</div>
-                    </div>
-                </div>
-                <script>$('.dropdown.tahun').dropdown();</script>
-            </div>
-            <div class="field" style="width: 30%">
-                <label>Bulan</label>
-                <div class="ui selection dropdown bulan">
-                    <input type="hidden" name="bulan" value="JUN">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Bulan</div>
-                    <div class="menu">
-                        <div class="item" data-value="JAN">Januari</div>
-                        <div class="item" data-value="FEB">Febfuari</div>
-                        <div class="item" data-value="MAR">Maret</div>
-                        <div class="item" data-value="APR">April</div>
-                        <div class="item" data-value="MAY">Mei</div>
-                        <div class="item" data-value="JUN">Juni</div>
-                        <div class="item" data-value="JUL">Juli</div>
-                        <div class="item" data-value="AUG">Agustus</div>
-                        <div class="item" data-value="SEP">September</div>
-                        <div class="item" data-value="OCT">Oktober</div>
-                        <div class="item" data-value="NOV">November</div>
-                        <div class="item" data-value="DES">Desember</div>
-                    </div>
-                </div>
-                <script>$('.dropdown.bulan').dropdown();</script>
-            </div>
+        </div>
+        <div class="actions">
+            <button class="ui negative button">Batal</button>
+            <button class="ui positive button">Simpan</button>
         </div>
     </div>
 </div>
+<script>
+    $('.adjust-bonus.modal .positive.button').click((e) => {
+        $('.adjust-bonus.modal input').clone().appendTo('#form-filter');
+        $('#form-filter').submit();
+    });
+</script>
+<?php $form = ActiveForm::begin(['id' => 'form-filter']); ?>
+<div class="ui vertical segment" style="padding: 1em;">
+    <div class="ui form filter">
+        <div class="fields">
+            <?php IF (Yii::$app->user->identity->roleId == 1) : ?>
+            <div class="field" style="width: 40%">
+                <label>Agen</label>
+                <?= Html::activeDropDownList($model, 'agenCode', ArrayHelper::merge(['' => 'Semua'], 
+                ArrayHelper::map(
+                    User::findAll(['roleId' => 2]), 
+                    'agenCode', 'agenCode')), 
+                [
+                    'class' => 'ui dropdown agenCode'
+                ]) ?>
+            </div>
+            <?php ENDIF; ?>
+            <div class="field" style="width: 30%">
+                <label>Tahun</label>
+                <?= Html::activeDropDownList($model, 'year', [
+                    '2019' => '2019',
+                    '2020' => '2020',
+                ], [
+                    'class' => 'ui dropdown year'
+                ]) ?>
+            </div>
+            <div class="field" style="width: 30%">
+                <label>Bulan</label>
+                <?= Html::activeDropDownList($model, 'month', [
+                    1 => 'Januari',
+                    2 => 'Februari',
+                    3 => 'Maret',
+                    4 => 'April',
+                    5 => 'Mei',
+                    6 => 'Juni',
+                    7 => 'Juli',
+                    8 => 'Agustus',
+                    9 => 'September',
+                    10 => 'Oktober',
+                    11 => 'November',
+                    12 => 'Desember',
+                ], [
+                    'class' => 'ui dropdown month'
+                ]) ?>
+            </div>
+            <script>
+                $('.ui.dropdown').dropdown();
+                ready(() => {
+                   setTimeout(() => {
+                        $('.ui.dropdown select').change(function(){
+                            $('#form-filter').submit();
+                        });
+                   }, 1000);
+                });
+            </script>
+        </div>
+    </div>
+</div>
+<?php $form->end(); ?>
 <div class="ui vertical segment" style="padding: 1em;">
     <div class="ui medium header">PENJUALAN</div>
     <div class="ui two tiny statistics">
@@ -132,16 +159,19 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
             <tr>
                 <td>Bonus Adjustment</td>
                 <td></td> <!-- 8, 10, 15 -->
-                <td style="text-align: right;"><?= floatToDecimal($model->bonusAdjustment) ?></td>
+                <td style="text-align: right;">
+                    <i onclick="$('.modal.adjust-bonus').modal('show');" class="icon teal pencil alternate"></i>
+                    <?= floatToDecimal($model->bonusAdjustment) ?>
+                </td>
             </tr>
             <tr>
                 <td>Total Yang Didapat</td>
-                <td><?= round((100 / $model->thisMonthSale) * $totalPendapatan, 2) ?>%</td> <!-- 8, 10, 15 -->
+                <td><?= $model->thisMonthSale ? round((100 / $model->thisMonthSale) * $totalPendapatan, 2) : 0 ?>%</td> <!-- 8, 10, 15 -->
                 <td style="text-align: right;"><?= floatToDecimal($totalPendapatan) ?></td>
             </tr>
             <tr>
                 <td>Total Yang Disetor</td>
-                <td><?= round((100 / $model->thisMonthSale) * $totalDisetor, 2) ?>%</td> <!-- 8, 10, 15 -->
+                <td><?= $model->thisMonthSale ? round((100 / $model->thisMonthSale) * $totalDisetor, 2) : 0 ?>%</td> <!-- 8, 10, 15 -->
                 <td style="text-align: right;"><?= floatToDecimal($totalDisetor) ?></td>
             </tr>
         </tbody>
