@@ -20,7 +20,13 @@ use const YII_ENV_TEST;
 class SiteController extends MainController
 {
     
-
+    public function beforeAction($action) {
+        
+        if ($action->id == 'test') $this->allowGuest = true;
+        
+        return parent::beforeAction($action);
+    }
+    
     /**
      * @inheritdoc
      */
@@ -51,7 +57,7 @@ class SiteController extends MainController
         $model->year = intval(date('Y'));
         $model->month = intval(date('m'));
         
-        $model->load(Yii::$app->request->post());
+        $model->load(Yii::$app->request->get());
         
         $model->bonusAdjustment = BonusAdjustment::get($model->agenCode, $model->year, $model->month);
         
@@ -211,5 +217,70 @@ class SiteController extends MainController
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionActive()
+    {
+        $model = new DashboardOverview();
+        
+        return $this->asJson($model->getActiveUsers());
+    }
+    
+    public function actionTest()
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "http://agen.nking.net/site/login");
+        curl_setopt($curl, CURLOPT_REFERER, "http://agen.nking.net/site/login");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        
+        curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie.txt');
+        curl_setopt($curl, CURLOPT_COOKIEFILE, 'cookie.txt');
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        
+        /*$csrf = '';
+        $response = curl_exec($curl);
+        //return $response;
+        $dom = new \DomDocument();
+        $dom->loadHTML($response);
+        $fields = $dom->getElementsByTagName("input");
+        
+        for ($i = 0; $i < $fields->length; $i++)
+        {
+            $field = $fields->item($i);
+            if($field->getAttribute('name') == '_csrf')
+                $csrf = $field->getAttribute('value');
+        }
+        
+        //return $csrf;
+        
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, [
+            'LoginForm[userName]' => 'endrik.exe',
+            'LoginForm[password]' => 'murtiofme',
+            '_csrf' => $csrf,
+        ]);
+        
+        $response = curl_exec($curl);
+        
+        if(curl_errno($curl)){
+            throw new Exception(curl_error($curl));
+        }
+        
+        return $response;*/
+        
+        curl_setopt($curl, CURLOPT_URL, 'http://agen.nking.net/site/index');
+        curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie.txt');
+        curl_setopt($curl, CURLOPT_COOKIEFILE, 'cookie.txt');
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36');
+        
+        //We don't want any HTTPS / SSL errors.
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        //Execute the GET request and print out the result.
+        return curl_exec($curl);
     }
 }

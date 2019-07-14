@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\AppHelper;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -50,5 +51,13 @@ class MainController extends Controller
         }
         
         return true;
+    }
+    
+    public function afterAction($action, $result) {
+        $result = parent::afterAction($action, $result);
+        
+        AppHelper::dispose();
+        
+        return $result;
     }
 }

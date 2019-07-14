@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 
+use app\components\AppHelper;
 use Yii;
 use yii\base\Model;
 
@@ -62,4 +63,41 @@ class DashboardOverview extends Model
         
         return $sales;
     }
+    
+    private $_activeUsers = null;
+    public function getActiveUsers()
+    {
+        if ($this->_activeUsers) return $this->_activeUsers;
+        
+        $api = AppHelper::getApi();
+        if ($api)
+        {
+            $query = $api->comm("/ip/hotspot/active/print");
+            //return $query;
+            $result = [];
+            foreach ($query as $data)
+            {
+                $comment = $data['comment'] ?? '';
+                
+                if ($this->agenCode && strpos($comment, $this->agenCode) === false) continue;
+                
+                $commentData = explode('-', $comment);
+                
+                $result[] = [
+                    'user' => $data['user'],
+                    'uptime' => $data['uptime'],
+                    'agenCode' => $commentData[0] == 'vc' ? $commentData[3] : '',
+                    'profileAlias' => $commentData[0] == 'vc' ? $commentData[5] : '',
+                ];
+            }
+            
+            $this->_activeUsers = $result;
+            return $result;
+        } else
+        {
+            $this->addError(null, 'Api not found, please configure your api username and password');
+            return false;
+        }
+    }
+    
 }

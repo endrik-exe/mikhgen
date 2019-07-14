@@ -134,7 +134,7 @@ function arrayKeyValue($array, $key)
 
 function ifNull($primary, $secondary)
 {
-    return $primary ?? $secondary;
+    return $primary ? $primary :  $secondary;
 }
 
 function currentRef()
@@ -144,11 +144,11 @@ function currentRef()
 
 function referrer($default = null)
 {
-    if (!$default) $default = ["/".Yii::$app->controller->id];
+    if (!$default) $default = [Yii::$app->controller->id];
     
     $get = urldecode(Yii::$app->request->get('referrer'));
     $post = urldecode(Yii::$app->request->post('referrer'));
-    $header = null;//Yii::$app->request->referrer;
+    $header = Yii::$app->request->referrer;
     
     if ($get) return $get;
     else if ($post) return $post;
@@ -176,7 +176,53 @@ function convertMonthToEn($str)
     ]);
 }
 
-function activeMonth()
+
+function lastDay($date = null)
 {
-    return 'JUN';
+    if (!$date) $date = date('Y-m-01');
+    
+    return date('Y-m-t', strtotime($date));
+}
+
+function dashCase($str)
+{
+    $result = "";
+    for ($i = 0; $i < strlen($str); $i++)
+    {
+        $char = $str[$i];
+        if ($char == strtoupper($char))
+        {
+            if ($i != 0) $result .= "-";
+            $result .= strtolower($char);
+        } else
+        {
+            $result .= $char;
+        }
+    }
+
+    return $result;
+}
+
+function formatTimespan($str)
+{
+    $mapping = [
+        'w' => 'mg',
+        'd' => 'hr',
+        'h' => 'j',
+        'm' => 'm',
+        's' => 'd',
+    ];
+
+    for ($i = 0; $i < strlen($str); $i++)
+    {
+        $ch = $str[$i];
+        if (in_array($ch, array_keys($mapping)))
+        {
+            $replace = "".$mapping[$ch]." ";
+            $str = substr_replace($str, $replace, $i, 1);
+            $i += strlen($replace);
+        }
+    }
+    
+    return $str;
 }

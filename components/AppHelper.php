@@ -21,6 +21,10 @@ class AppHelper
         12 => 'DES'
     ];
     
+    /**
+     * routerosapi singleton
+     * @var app\components\RouterosAPI 
+     */
     private static $_api = null;
     public static function getApi()
     {
@@ -38,5 +42,16 @@ class AppHelper
         }
         
         return $_api;
+    }
+    
+    /**
+     * Call this after action
+     */
+    public static function dispose()
+    {
+        if (self::$_api)
+        {
+            self::$_api->disconnect();
+        }
     }
 }

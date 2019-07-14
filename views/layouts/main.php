@@ -79,10 +79,6 @@ MainAsset::register($this);
 <div class="main wrap" style="display: none; overflow-x: hidden; padding-top: 65px;" >
     <?= $content ?>
 </div>
-
-<footer class="footer">
-    
-</footer>
 <?php $this->endBody() ?>
 </body>
 </html>

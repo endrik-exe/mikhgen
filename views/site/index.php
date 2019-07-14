@@ -53,7 +53,10 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
         $('#form-filter').submit();
     });
 </script>
-<?php $form = ActiveForm::begin(['id' => 'form-filter']); ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'form-filter',
+    'method' => 'get',
+]); ?>
 <div class="ui vertical segment" style="padding: 1em;">
     <div class="ui form filter">
         <div class="fields">
@@ -178,28 +181,23 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
     </table>
 </div>
 <div class="ui vertical segment" style="padding: 1em;">
-    <div class="ui medium header">PENGGUNA AKTIF</div>
+    <div class="ui medium header">
+        PENGGUNA AKTIF
+        <div class="sub header"><?= count($model->activeUsers) ?> Pengguna</div>
+    </div>
     <div class="ui middle aligned divided list">
+        <?php FOREACH ($model->activeUsers as $user) : ?>
         <div class="item">
             <div class="right floated content">
                 <div class="circular ui red mini icon button"><i class="icon minus"></i></div>
             </div>
-            <i class="large middle aligned icon">VC3</i>
+            <i class="large middle aligned icon" style="min-width: 46px"><?= $user['profileAlias'] ?></i>
             <div class="content">
-                <a class="header">skuw1389</a>
-                <div class="description">Uptime 01:30</div>
+                <a class="header"><?= $user['user'] ?></a>
+                <div class="description">Uptime <?= formatTimespan($user['uptime']) ?></div>
             </div>
         </div>
-        <div class="item">
-            <div class="right floated content">
-                <div class="circular ui red mini icon button"><i class="icon minus"></i></div>
-            </div>
-            <i class="large middle aligned icon">VC5</i>
-            <div class="content">
-                <a class="header">abcd1234</a>
-                <div class="description">Uptime 01:30</div>
-            </div>
-        </div>
+        <?php ENDFOREACH; ?>
     </div>
 </div>
 <div class="ui vertical segment">
