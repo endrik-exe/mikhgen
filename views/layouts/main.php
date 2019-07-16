@@ -76,7 +76,7 @@ MainAsset::register($this);
     loadPage();
 </script>
 <?php if (Yii::$app->user->identity) echo $this->render('header'); ?>
-<div class="main wrap" style="display: none; overflow-x: hidden; padding-top: 65px;" >
+<div class="main wrap" style="display: none; overflow-x: hidden; padding-top: 65px; min-height: 100vh" >
     <?= $content ?>
 </div>
 <?php $this->endBody() ?>

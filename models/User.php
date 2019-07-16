@@ -132,6 +132,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->authKey;
     }
 
+    public function getIsAdmin()
+    {
+        return $this->roleId == 1;
+    }
+    
     /**
      * @inheritdoc
      */
@@ -183,5 +188,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->passwordResetToken = null;
+    }
+
+    public function search()
+    {
+        return User::find()->all();
     }
 }

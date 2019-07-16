@@ -10,6 +10,22 @@ class MainController extends Controller
 {
     public $allowGuest = false;
     
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+    
     public function beforeAction($action) {
         if (!parent::beforeAction($action))
         {

@@ -48,3 +48,9 @@ body > .nav.segment
 .text-right {
     text-align: right;
 }
+
+.ui.table thead tr:first-child>th>.header {
+        font-size: 1.2em;
+        display: inline-block;
+        margin-top: .2em;
+    }

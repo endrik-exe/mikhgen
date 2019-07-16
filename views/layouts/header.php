@@ -94,6 +94,7 @@ $user = Yii::$app->user->identity;
         margin: 0 0px 0 -2px;
         border-right: none;
         border-left-style: solid;
+        border-left-color: transparent;
     }
     .panel-container > .left-panel .vertical.pointing.menu .item .icon
     {
@@ -146,7 +147,7 @@ $user = Yii::$app->user->identity;
             <a class="item" href="#">
                 <i class="envelope outline icon"></i> SMS GATEWAY
             </a>
-            <a class="item" href="#">
+            <a class="item" href="<?= Url::to(['/user'])?>">
                 <i class="users icon"></i> USER
             </a>
             <a class="item" href="#">
