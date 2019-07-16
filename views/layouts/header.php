@@ -8,6 +8,8 @@ use yii\helpers\Url;
  * and open the template in the editor.
  */
 
+$user = Yii::$app->user->identity;
+
 ?>
 <style>
     .panel-container {
@@ -106,7 +108,7 @@ use yii\helpers\Url;
     <h3 class="ui right floated aligned header user" style="margin-bottom: 0px">
         <div class="uppercase content">
             AKUN
-            <div class="normalcase sub header"><?= Yii::$app->user->identity->userName ?> - <?= Yii::$app->user->identity->agenCode ?></div>
+            <div class="normalcase sub header"><?= $user->userName ?> - <?= $user->roleId == 1 ? 'Admin' : $user->agenCode ?></div>
         </div>
     </h3>
     <div class="left-panel header">
