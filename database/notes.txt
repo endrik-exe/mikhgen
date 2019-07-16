@@ -1,0 +1,13 @@
+#PROFILE
+----------
+* PARAMS
+name
+duration
+sharedUser
+price
+downloadSpeed
+uploadSpeed
+
+
+#SCRIPTS SALES NOTE SIGNATURE
+name = SALES-|-$date-|-$time-|-$user-|-$profile-|-$price-|-$comment
