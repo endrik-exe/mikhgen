@@ -21,14 +21,16 @@ class AppHelper
         12 => 'DES'
     ];
     
+    
+    private static $_api = null;
+    private static $getApiTrial = 1;
     /**
      * routerosapi singleton
      * @var app\components\RouterosAPI 
      */
-    private static $_api = null;
     public static function getApi()
     {
-        if (!self::$_api)
+        if (!self::$_api && self::$getApiTrial > 0)
         {
             $newApi = new RouterosAPI();
             //$API->debug = true;
@@ -37,11 +39,13 @@ class AppHelper
                 Yii::$app->params['apiUserName'], 
                 Yii::$app->params['apiUserPassword'])
             ) {
-                $_api = $newApi;
+                self::$_api = $newApi;
             }
+            
+            --self::$getApiTrial;
         }
         
-        return $_api;
+        return self::$_api;
     }
     
     /**

@@ -53,6 +53,17 @@ class Sales extends Model
         ];
     }
     
+    /**
+     * 
+     * Get sales with some parameter
+     * 
+     * @param type $agenCode
+     * @param type $year
+     * @param type $month
+     * @param type $source
+     * @return array sales data
+     * @throws Exception
+     */
     public static function getSalesWith($agenCode = null, $year = null, $month = null, $source = Sales::SOURCE_BOTH)
     {
         $api = AppHelper::getApi();
@@ -93,8 +104,7 @@ class Sales extends Model
             return $sales;
         } else
         {
-            $this->addError(null, 'Api not found, please configure your api username and password');
-            return false;
+            throw new \Exception('Api not found, please configure your api username and password');
         }
     }
     

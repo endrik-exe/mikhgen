@@ -2,7 +2,7 @@
 namespace app\models;
 
 use app\components\AppHelper;
-use Yii;
+use Exception;
 use yii\base\Model;
 
 /**
@@ -44,7 +44,12 @@ class DashboardOverview extends Model
     
     public function getSales()
     {
-        $sales = Sales::getSalesWith($this->agenCode, $this->year, $this->month, Sales::SOURCE_BOTH);
+        try {
+            $sales = Sales::getSalesWith($this->agenCode, $this->year, $this->month, Sales::SOURCE_BOTH);
+        } catch (Exception $ex) {
+            $this->addError(null, $ex->getMessage());
+            return [];
+        }
         
         foreach($sales as $sale)
         {
@@ -64,7 +69,7 @@ class DashboardOverview extends Model
         return $sales;
     }
     
-    private $_activeUsers = null;
+    private $_activeUsers = [];
     public function getActiveUsers()
     {
         if ($this->_activeUsers) return $this->_activeUsers;
@@ -96,7 +101,7 @@ class DashboardOverview extends Model
         } else
         {
             $this->addError(null, 'Api not found, please configure your api username and password');
-            return false;
+            return [];
         }
     }
     
