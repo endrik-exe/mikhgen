@@ -107,7 +107,7 @@ $user = Yii::$app->user->identity;
     </button>
     <h3 class="ui right floated aligned header user" style="margin-bottom: 0px">
         <div class="uppercase content">
-            AKUN
+            ACCOUNT
             <div class="normalcase sub header"><?= $user->userName ?> - <?= $user->roleId == 1 ? 'Admin' : $user->agenCode ?></div>
         </div>
     </h3>
@@ -120,8 +120,8 @@ $user = Yii::$app->user->identity;
     <h3 class="ui left floated header">
         <i class="bars icon link menu" onclick="$('body').toggleClass('open-left');"></i>
         <div class="uppercase content">
-            BERANDA
-            <div class="normalcase sub header">Ikhtisar</div>
+            HOME
+            <div class="normalcase sub header">Overview</div>
         </div>
     </h3>
 </div>
@@ -129,10 +129,28 @@ $user = Yii::$app->user->identity;
     <div class="left-panel">
         <div class="ui inverted secondary vertical pointing menu" style="width: 100%">
             <a class="item active" href="<?= Url::to(['/site/index']) ?>">
-                <i class="home icon"></i> IKHTISAR
+                <i class="home icon"></i> OVERVIEW
             </a>
-            <a class="item" href="<?= Url::to(['/site/index']) ?>">
-                <i class="users icon"></i> LIST AGEN
+            <a class="item" href="#">
+                <i class="wifi icon"></i> HOTSPOT USER
+            </a>
+            <a class="item" href="#">
+                <i class="credit card outline icon"></i> VOUCHER
+            </a>
+            <a class="item" href="#">
+                <i class="folder outline icon"></i> TEMPLATE MANAGER
+            </a>
+            <a class="item" href="#">
+                <i class="chart bar icon"></i> INSIGHT
+            </a>
+            <a class="item" href="#">
+                <i class="envelope outline icon"></i> SMS GATEWAY
+            </a>
+            <a class="item" href="#">
+                <i class="users icon"></i> USER
+            </a>
+            <a class="item" href="#">
+                <i class="cog icon"></i> SETTING
             </a>
         </div>
     </div>
