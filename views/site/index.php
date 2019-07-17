@@ -26,9 +26,6 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
         border: 1px solid gray;
         padding: 4px;
     }
-    .form.filter .selection.dropdown {
-        min-width: 50px;
-    }
 </style>
 <div class="ui dimmer modal transition">
     <div class="ui mini adjust-bonus modal transition">

@@ -50,7 +50,11 @@ body > .nav.segment
 }
 
 .ui.table thead tr:first-child>th>.header {
-        font-size: 1.2em;
-        display: inline-block;
-        margin-top: .2em;
-    }
+    font-size: 1.2em;
+    display: inline-block;
+    margin-top: .2em;
+}
+
+.ui.selection.dropdown {
+    min-width: 50px;
+}

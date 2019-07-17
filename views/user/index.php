@@ -1,4 +1,8 @@
 <?php
+
+use app\widgets\Toolbar;
+use yii\helpers\Html;
+use yii\web\View;
 /* @var $this View */
 
 $this->title = 'User - Agen nKing';
@@ -11,12 +15,9 @@ $this->title = 'User - Agen nKing';
                 <th colspan="3">
                     <span class="header"> DAFTAR USER</span>
                     
-                    <a class="ui right floated mini primary icon button">
-                        <i class="plus icon"></i>
-                    </a>
-                    <a class="ui right floated mini icon button">
-                        <i class="filter icon"></i>
-                    </a>
+                    <?= Toolbar::widget([
+                        'buttons' => ['create', 'filter']
+                    ]) ?>
                 </th>
             </tr>
             <tr>
@@ -31,8 +32,8 @@ $this->title = 'User - Agen nKing';
                 <td><?= $user->userName ?></td>
                 <td><?= $user->isAdmin ? 'Admin' : $user->agenCode ?></td>
                 <td class="center aligned collapsing">
-                    <a href="#"><i class="edit outline icon"></i></a>
-                    <a href="#"><i class="trash alternate outline icon"></i></a>
+                    <?= Html::a('<i class="edit outline icon"></i>', ['update', 'id' => $user->primaryKey, 'referrer' => currentRef()]) ?>
+                    <?= Html::a('<i class="trash alternate outline icon"></i>', ['toggle-active', 'id' => $user->primaryKey, 'referrer' => currentRef()]) ?>
                 </td>
             </tr>
             <?php ENDFOREACH; ?>

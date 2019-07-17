@@ -22,6 +22,8 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public $password;
+    
     /**
      * @inheritdoc
      */
@@ -48,9 +50,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['userName', 'passwordHash'], 'required'],
-            [['userName', 'email', 'handphone', 'agenCode'], 'string', 'max' => 45],
+            [['userName', 'email', 'handphone', 'agenCode', 'password'], 'string', 'max' => 45],
             [['passwordHash', 'passwordResetToken', 'authKey'], 'string', 'max' => 200],
             [['id'], 'number'],
+            [['isActive'], 'boolean'],
             [['roleId'], 'default', 'value' => 2],
         ];
     }
@@ -190,6 +193,16 @@ class User extends ActiveRecord implements IdentityInterface
         $this->passwordResetToken = null;
     }
 
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        if ($this->password)
+        {
+            $this->setPassword($this->password);
+        }
+        
+        return parent::save($runValidation, $attributeNames);
+    }
+    
     public function search()
     {
         return User::find()->all();
