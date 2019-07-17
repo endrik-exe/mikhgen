@@ -133,6 +133,9 @@ $user = Yii::$app->user->identity;
                 <i class="home icon"></i> OVERVIEW
             </a>
             <a class="item" href="#">
+                <i class="money bill alternate outline icon"></i> SALES
+            </a>
+            <a class="item" href="#">
                 <i class="wifi icon"></i> HOTSPOT USER
             </a>
             <a class="item" href="#">
