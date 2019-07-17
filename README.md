@@ -33,27 +33,19 @@ REQUIREMENTS
 The minimum requirement by this project template that your Web server supports PHP 5.4.0.
 
 
-INSTALLATION
+CONTRIBUTING
 ------------
 
-### Install from an Archive File
+### Requirement
+- PHP language for backend
+- HTML, CSS, JavaScript for frontend
+- VueJs for interactivity
+- Semantic UI for rich ui
+- MySQL for database
+- PHP Engine v7 language support
 
-Download repository ini sebagai zip, dan simpan di htdocs xampp, 
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/mikhgen/web/
-~~~
+### Notes
+Setelah anda clone repository ini, sebelum mengubah konfigurasi, silahkan anda run git command `git --assume-unchanged` untuk semua file pada folder config, agar yang lain tidak mendapatkan perubahan konfigurasi anda, karena setiap komputer berbeda konfigurasi. baru setelah itu anda boleh commit, saat ini gunakan saja master.
 
 
 CONFIGURATION
@@ -80,4 +72,4 @@ return [
 
 FITUR
 -------
-- TO be edited
+- To be edited
