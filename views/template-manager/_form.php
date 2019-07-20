@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
     <div class="ui unstackable tiny form create user">
         <h3 class="ui teal dividing header">
-            User Information
+            Template Editor
         </h3>
         <div class="fields">
             <div class="eight wide field required">
@@ -25,41 +25,25 @@ use yii\widgets\ActiveForm;
                     'placeholder' => 'Name',
                 ])?>
             </div>
-            <div class="four wide field">
-                <label><?= $model->getAttributeLabel('alias') ?></label>
-                <?= Html::activeTextInput($model, 'alias', [
-                    'placeholder' => 'Alias',
-                ])?>
-            </div>
-            <div class="four wide field">
-                <label><?= $model->getAttributeLabel('price') ?></label>
-                <?= Html::activeTextInput($model, 'price', [
-                    'placeholder' => 'Price',
-                ])?>
-            </div>
-        </div>
-        <div class="fields">
             <div class="eight wide field">
-                <label><?= $model->getAttributeLabel('uptime') ?></label>
-                <?= Html::activeTextInput($model, 'uptime', [
-                    'placeholder' => 'Uptime',
-                ])?>
+                <label>&nbsp;</label>
+                <?= Html::a('Set Default', referrer(['index']), [
+                    'class' => 'ui tiny right floated teal button'
+                ]) ?>
+                <?= Html::a("<i class='print icon'></i>", referrer(['index']), [
+                    'class' => 'ui tiny right floated icon button'
+                ]) ?>
             </div>
-            <div class="eight wide field">
-                <label><?= $model->getAttributeLabel('gracePeriod') ?></label>
-                <?= Html::activeTextInput($model, 'gracePeriod', [
-                    'placeholder' => 'Grace period',
-                ])?>
-            </div>
+            
         </div>
-        <div class="fields">
-            <div class="eight wide field">
-                <label><?= $model->getAttributeLabel('rateLimit') ?></label>
-                <?= Html::activeTextInput($model, 'rateLimit', [
-                    'placeholder' => 'Rate limit',
-                ])?>
-            </div>
+        <div class="field">
+            <label><?= $model->getAttributeLabel('source') ?></label>
+            <?= Html::activeTextarea($model, 'source', [
+                'placeholder' => 'Source',
+                'rows' => '20',
+            ])?>
         </div>
+        
         <?= Html::a('Cancel', referrer(['index']), [
             'class' => 'ui tiny right floated negative button'
         ]) ?>

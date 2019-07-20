@@ -14,6 +14,7 @@ class Template extends Model
 {
     public $name;
     public $modifiedDate;
+    public $source;
     
     /**
      * @inheritdoc
@@ -21,7 +22,7 @@ class Template extends Model
     public function rules()
     {
         return [
-            [['userName', 'modifedDate'], 'string'],
+            [['userName', 'modifedDate', 'source'], 'string'],
         ];
     }
     
@@ -30,19 +31,28 @@ class Template extends Model
         return $this->name;
     }
     
-    public static function getTemplates()
+    public static function getTemplate($getName = null)
     {
         $dirs = FileHelper::findDirectories(Yii::getAlias('@template'));
         
         $templates = [];
         foreach ($dirs as $dir)
         {
+            $name = basename($dir);
+            
+            if ($getName && $name != $getName) continue;
+            
             $stat = stat($dir);
             
-            $templates[] = new Template([
-                'name' => basename($dir),
+            $template = new Template([
+                'name' => $name,
                 'modifiedDate' => date('Y-m-d', $stat['mtime']),
+                'source' => file_get_contents("$dir/index.php"),
             ]);
+            
+            if ($getName) return $template;
+            
+            $templates[] = $template;
         }
         
         return $templates;

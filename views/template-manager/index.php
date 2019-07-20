@@ -28,7 +28,7 @@ $this->title = 'User - Agen nKing';
             </tr>
         </thead>
         <tbody>
-            <?php FOREACH (Template::getTemplates() as $template) : ?>
+            <?php FOREACH (Template::getTemplate() as $template) : ?>
             <tr>
                 <td><?= $template->name ?></td>
                 <td><?= $template->modifiedDate ?></td>
