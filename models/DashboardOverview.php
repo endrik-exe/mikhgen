@@ -91,8 +91,8 @@ class DashboardOverview extends Model
                 $result[] = [
                     'user' => $data['user'],
                     'uptime' => $data['uptime'],
-                    'agenCode' => $commentData[0] == 'vc' ? $commentData[3] : '',
-                    'profileAlias' => $commentData[0] == 'vc' ? $commentData[5] : '',
+                    'agenCode' => $commentData[0] == 'vc' ? ($commentData[3] ?? '') : '',
+                    'profileAlias' => $commentData[0] == 'vc' ? ($commentData[5] ?? '') : '',
                 ];
             }
             
