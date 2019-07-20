@@ -135,13 +135,13 @@ $user = Yii::$app->user->identity;
             <a class="item" href="#">
                 <i class="money bill alternate outline icon"></i> SALES
             </a>
-            <a class="item" href="#">
+            <a class="item" href="<?= Url::to(['/hotspot-user'])?>">
                 <i class="wifi icon"></i> HOTSPOT USER
             </a>
             <a class="item" href="<?= Url::to(['/voucher'])?>">
                 <i class="credit card outline icon"></i> VOUCHER
             </a>
-            <a class="item" href="#">
+            <a class="item" href="<?= Url::to(['/template-manager'])?>">
                 <i class="folder outline icon"></i> TEMPLATE MANAGER
             </a>
             <a class="item" href="#">

@@ -14,7 +14,7 @@ $this->title = 'User - Agen nKing';
         <thead>
             <tr>
                 <th colspan="5">
-                    <span class="header"> DAFTAR VOUCHER</span>
+                    <span class="header">VOUCHER LIST</span>
                     
                     <?= Toolbar::widget([
                         'buttons' => ['create', 'generate', 'filter'],
@@ -45,7 +45,7 @@ $this->title = 'User - Agen nKing';
                 <td><?= $voucher->uptime ?></td>
                 <td class="center aligned collapsing">
                     <?= Html::a('<i class="edit outline icon"></i>', ['update', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
-                    <?= Html::a('<i class="print icon"></i>', ['upload', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
+                    <?= Html::a('<i class="upload icon"></i>', ['upload', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
                     <?= Html::a('<i class="trash alternate outline icon"></i>', ['toggle-active', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
                 </td>
             </tr>
