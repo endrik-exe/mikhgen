@@ -138,7 +138,7 @@ $user = Yii::$app->user->identity;
             <a class="item" href="#">
                 <i class="wifi icon"></i> HOTSPOT USER
             </a>
-            <a class="item" href="#">
+            <a class="item" href="<?= Url::to(['/voucher'])?>">
                 <i class="credit card outline icon"></i> VOUCHER
             </a>
             <a class="item" href="#">
