@@ -53,9 +53,9 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="fields">
-            <div class="eight wide field required">
+            <div class="eight wide field">
                 <label><?= $model->getAttributeLabel('rateLimit') ?></label>
-                <?= Html::activePasswordInput($model, 'rateLimit', [
+                <?= Html::activeTextInput($model, 'rateLimit', [
                     'placeholder' => 'Rate limit',
                 ])?>
             </div>

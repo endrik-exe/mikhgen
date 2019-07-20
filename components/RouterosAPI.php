@@ -357,6 +357,12 @@ class RouterosAPI
             return false;
         }
     }
+    
+    public static function serialize($val)
+    {
+        return is_bool($val) === true ? ($val ? 'yes' : 'no') : $val;
+    }
+    
     /**
      * Write (send) data to Router OS
      *
@@ -374,13 +380,13 @@ class RouterosAPI
             foreach ($arr as $k => $v) {
                 switch ($k[0]) {
                     case "?":
-                        $el = "$k=$v";
+                        $el = "$k=".self::serialize($v);
                         break;
                     case "~":
-                        $el = "$k~$v";
+                        $el = "$k~".self::serialize($v);
                         break;
                     default:
-                        $el = "=$k=$v";
+                        $el = "=$k=".self::serialize($v);
                         break;
                 }
                 $last = ($i++ == $count - 1);

@@ -1,6 +1,6 @@
 :put ("{{VC_ALIAS}}, {{PRICE}}, {{UPTIME}}, {{GRACE_PERIOD}}");
 {
- :local alias("{{VC_ALIAS}}");
+ :local alias ("{{VC_ALIAS}}");
  :local price ("{{PRICE}}");
  :local date [/system clock get date ];
  :local time [/system clock get time ];

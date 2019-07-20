@@ -17,7 +17,14 @@ $this->title = 'User - Agen nKing';
                     <span class="header"> DAFTAR VOUCHER</span>
                     
                     <?= Toolbar::widget([
-                        'buttons' => ['create', 'filter']
+                        'buttons' => ['create', 'generate', 'filter'],
+                        'customTools' => [
+                            'generate' => function($model) {
+                                return Html::a('<i class="upload icon"></i>', ['generate', 'referrer' => currentRef()], [
+                                    'class' => 'ui right floated mini grey icon button'
+                                ]);
+                            }
+                        ]
                     ]) ?>
                 </th>
             </tr>
@@ -38,6 +45,7 @@ $this->title = 'User - Agen nKing';
                 <td><?= $voucher->uptime ?></td>
                 <td class="center aligned collapsing">
                     <?= Html::a('<i class="edit outline icon"></i>', ['update', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
+                    <?= Html::a('<i class="print icon"></i>', ['upload', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
                     <?= Html::a('<i class="trash alternate outline icon"></i>', ['toggle-active', 'id' => $voucher->primaryKey, 'referrer' => currentRef()]) ?>
                 </td>
             </tr>

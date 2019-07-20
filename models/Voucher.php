@@ -2,8 +2,10 @@
 namespace app\models;
 
 use app\components\AppHelper;
-use \DateTime;
+use Exception;
+use Yii;
 use yii\base\Model;
+use function str_replaces;
 
 /**
  * User model
@@ -17,13 +19,15 @@ use yii\base\Model;
  */
 class Voucher extends Model
 {
+    public $id;
     public $name;
     public $alias;
     public $uptime;
     public $gracePeriod;
-    public $sharedUsers;
+    public $sharedUsers = 1;
     public $price;
     public $rateLimit;
+    public $addMacCookie = true;
     
     /**
      * @inheritdoc
@@ -31,7 +35,7 @@ class Voucher extends Model
     public function rules()
     {
         return [
-            [['name',], 'string', 'max' => 45],
+            [['name', 'alias'], 'string', 'max' => 45],
             [['sharedUsers', 'price'], 'integer'],
             [['uptime', 'gracePeriod', 'rateLimit'], 'safe'],
         ];
@@ -39,23 +43,20 @@ class Voucher extends Model
     
     public function getPrimaryKey()
     {
-        return $this->name;
+        return $this->id;
     }
     
-    public static function getVoucher($name = null)
+    public static function getVoucher($whereId = null)
     {
         $api = AppHelper::getApi();
         if ($api)
         {
             $query = $api->comm("/ip/hotspot/user/profile/print");
-            
-            
-            //return $query;
-            
+
             $vouchers = [];
             foreach ($query as $data)
             {
-                if ($name && $data['name'] != $name) continue;
+                if ($whereId && $data['.id'] != $whereId) continue;
                 
                 $alias = null;
                 $price = 0;
@@ -76,6 +77,7 @@ class Voucher extends Model
                 if (!$alias) continue;
                 
                 $vc = new Voucher([
+                    'id' => $data['.id'],
                     'name' => $data['name'],
                     'alias' => $alias,
                     'price' => $price,
@@ -85,7 +87,7 @@ class Voucher extends Model
                     'rateLimit' => $data['rate-limit'] ?? '' ,
                 ]);
                 
-                if ($name) return $vc;
+                if ($whereId) return $vc;
                 
                 $vouchers[] = $vc;
             }
@@ -93,7 +95,40 @@ class Voucher extends Model
         }
         else
         {
-            throw new \Exception('Api not found, please configure your api username and password');
+            throw new Exception('Api not found, please configure your api username and password');
         }
+    }
+    
+    public function save()
+    {
+        $api = AppHelper::getApi();
+        if (!$api) throw new Exception("Api not found, please configure your api username and password");
+        
+        $old = $api->comm("/ip/hotspot/user/profile/print", [
+            '?.id' => $this->id
+        ]);
+        
+        $command = "/ip/hotspot/user/profile/".($old ? 'set' : 'add');
+        $onlogin = minifyRos(str_replaces(file_get_contents(Yii::getAlias('@app/ros/onlogin.ros')), [
+            '{{VC_ALIAS}}' => $this->alias,
+            '{{PRICE}}' => $this->price,
+            '{{UPTIME}}' => $this->uptime,
+            '{{GRACE_PERIOD}}' => $this->gracePeriod,
+        ]));
+        
+        $comm = $api->comm($command, \yii\helpers\ArrayHelper::merge(
+            !$old ? [] : 
+            [
+                '.id' => $this->id,
+            ], [
+                'name' => $this->name,
+                'shared-users' => $this->sharedUsers,
+                'rate-limit' => $this->rateLimit,
+                'add-mac-cookie' => $this->addMacCookie,
+                'on-login' => $onlogin
+            ])
+        );
+        
+        return true;
     }
 }

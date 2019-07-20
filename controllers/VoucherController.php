@@ -19,7 +19,7 @@ class VoucherController extends MainController
      */
     public function actionIndex()
     {
-        //return $this->asJson(Voucher::getVoucher());
+        //return minifyRos(file_get_contents(Yii::getAlias('@app/ros/onlogin.ros')));
         
         return $this->render('index', [
             
@@ -28,7 +28,7 @@ class VoucherController extends MainController
     
     public function actionCreate()
     {
-        $model = new User();
+        $model = new Voucher();
         
         if ($model->load(Yii::$app->request->post()))
         {
@@ -36,8 +36,6 @@ class VoucherController extends MainController
             {
                 return $this->redirect(referrer());
             }
-            
-            Yii::trace($model->errors);
         }
         
         return $this->render('create', [
@@ -55,8 +53,6 @@ class VoucherController extends MainController
             {
                 return $this->redirect(referrer());
             }
-            
-            Yii::trace($model->errors);
         }
         
         return $this->render('update', [

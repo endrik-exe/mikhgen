@@ -226,3 +226,8 @@ function formatTimespan($str)
     
     return $str;
 }
+
+function minifyRos($ros)
+{
+    return str_replace([" \\\r\n", "\r\n"], '', $ros);
+}
