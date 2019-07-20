@@ -1,0 +1,48 @@
+#PROFILE
+----------
+* PARAMS
+name
+duration
+sharedUser
+price
+downloadSpeed
+uploadSpeed
+
+#HOTSPOT USER SIGNATURE (name)
+$AGEN$KEY4
+
+ex :
+pbrab12
+
+_______________
+
+#HOTSPOT USER SIGNATURE (comment)
+AGEN.|.VC_ALIAS.|.TIMESTAMP.|.xMONTH_GEN_COUNT.|.qGEN_QTY
+
+ex :
+PBR.|.V2H.|.2019-07-20 12:06:32.|.x1.|.q27
+
+
+#SCRIPTS SALES RECORD SIGNATURE (name)
+AGEN.|.$date.|.$time.|.$user.|.$profile.|.$price.|.$comment
+
+
+
+
+#FLOW
+* ON LOGIN
+1. ADD SCRIPT (call it registry), that will
+    - ADD SCHEDULE for grace periode, that will
+        - remove actiev user if active
+        - remove user
+        - remove this schedule self
+2. ADD SCHEDULE for uptime, that will
+    - MAKE USER LIMIT-UPTIME to 1 seconds
+    - REMOVE this schedule self
+    - RUN registry script then
+    - REMOVE registry script, don't needed anymore
+3. ADD SCRIPT for sales record (only for record, that stores sales info, no execution)
+
+
+* AFTER GRACE SCHEDULE is executed
+ - user will be removed completely
