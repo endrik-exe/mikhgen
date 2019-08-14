@@ -66,6 +66,7 @@ class Sales extends Model
      */
     public static function getSalesWith($agenCode = null, $year = null, $month = null, $source = Sales::SOURCE_BOTH)
     {
+        $missingMDR = 'vc-251-08.03.19-MDR-AUG-V2J-x1-q18'; //missing
         $api = AppHelper::getApi();
         if ($api)
         {
@@ -97,6 +98,8 @@ class Sales extends Model
                 ];
                 
                 if ($agenCode && strpos($sale['comment'], $agenCode) === false) continue;
+                
+                if ($agenCode == 'MDR' && strpos($sale['comment'], $missingMDR) !== false) continue;
                 
                 $sales[] = $sale;
             }

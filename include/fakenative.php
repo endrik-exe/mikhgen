@@ -8,6 +8,8 @@ use yii\helpers\Json;
  * and open the template in the editor.
  */
 
+const DELIMITER = '.|.';
+
 function indexOf($array, $callback, $params  = [])
 {
     for($i = 0; $i < count($array); $i++)
@@ -230,4 +232,25 @@ function formatTimespan($str)
 function minifyRos($ros)
 {
     return str_replace([" \\\r\n", "\r\n"], '', $ros);
+}
+
+const RAND_ALPHA = 'a';
+const RAND_NUMERIC = 'n';
+const RAND_ALPHANUMERIC = 'an';
+function random($length, $mode = RAND_ALPHANUMERIC, $uppercase = false) {
+    $chars = "23456789abcdefghijkmnprstuvwxyz";
+    if ($mode == RAND_ALPHA) $chars = 'abcdefghijkmnprstuvwxyz';
+    if ($mode == RAND_NUMERIC) $chars = '23456789';
+
+    if ($uppercase) $chars = strtoupper ($chars);
+
+    $charArray = str_split($chars);
+    $charCount = strlen($chars);
+    $result = "";
+    for($i=1;$i<=$length;$i++)
+    {
+        $randChar = rand(0,$charCount-1);
+        $result .= $charArray[$randChar];
+    }
+    return $result;
 }

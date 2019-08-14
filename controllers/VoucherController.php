@@ -4,6 +4,7 @@ namespace app\controllers;
 use app\controllers\MainController;
 use app\models\User;
 use app\models\Voucher;
+use app\models\VoucherFactory;
 use Yii;
 use function referrer;
 
@@ -58,6 +59,18 @@ class VoucherController extends MainController
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionGenerate($id = null)
+    {
+        $voucherFactory = new VoucherFactory([
+            'qty' => 20,
+            'agenCode' => 'NEW',
+            'profile' => 'V1H-5000',
+            'vcAlias' => 'V1H',
+        ]);
+        
+        return $this->asJson($voucherFactory->generate());
     }
     
     public function actionToggleActive($id)

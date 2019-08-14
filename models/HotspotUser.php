@@ -5,31 +5,29 @@ use app\components\AppHelper;
 use Exception;
 use Yii;
 use yii\base\Model;
-use function str_replaces;
+use yii\helpers\ArrayHelper;
+use const DELIMITER;
 
 /**
  * User model
  *
- * @property string $userName
+ * @property string $id
+ * @property string $server
+ * @property string $name
+ * @property string profile
  * @property string $password
  * @property string $comment
- * @property string $profileId
- * @property string $profileName
- * @property string $profileAlias
- * @property integer $price
- * @property string $uptime
+ * @property string $agenCode
  */
 class HotspotUser extends Model
 {
-    public $userName;
+    public $id;
+    public $server;
+    public $name;
     public $password;
+    public $profile;
     public $comment;
-    
-    public $profileId;
-    public $profileName;
-    public $profileAlias;
-    public $price;
-    public $uptime;
+    public $agenCode;
     
     /**
      * @inheritdoc
@@ -37,9 +35,7 @@ class HotspotUser extends Model
     public function rules()
     {
         return [
-            [['userName', 'password', 'comment', 'profileId', 'profileName'], 'string'],
-            [['price'], 'integer'],
-            [['uptime'], 'safe'],
+            [['id', 'server', 'name', 'password', 'profile', 'comment', 'agenCode'], 'string']
         ];
     }
     
@@ -48,52 +44,38 @@ class HotspotUser extends Model
         return $this->userName;
     }
     
-    public static function getVoucher($whereId = null)
+    public static function getUsers($filter = [])
     {
         $api = AppHelper::getApi();
         if ($api)
         {
-            $query = $api->comm("/ip/hotspot/user/profile/print");
+            $query = $api->comm("/ip/hotspot/user/print", $filter);
 
-            $vouchers = [];
+            //return $query;
+            
+            $users = [];
             foreach ($query as $data)
             {
-                if ($whereId && $data['.id'] != $whereId) continue;
+                $comment = $data['comment'] ?? '';
+                $commentData = null;
+                if (strpos($comment, 'vc.|.') === 0)
+                    $commentData = explode(DELIMITER, $comment);
                 
-                $alias = null;
-                $price = 0;
-                $uptime = null;
-                $gracePeriod = null;
-                if (isset($data['on-login']) && strpos($data['on-login'], ':put ("') === 0)
-                {
-                    $puts = explode(', ', substr($data['on-login'], 7, strpos($data['on-login'], '");') - 7));
-                    
-                    if (count($puts) != 4) continue;
-                    
-                    $alias = $puts[0];
-                    $price = $puts[1];
-                    $uptime = $puts[2];
-                    $gracePeriod = $puts[3];
-                }
-                
-                if (!$alias) continue;
-                
-                $vc = new Voucher([
+                $user = new self([
                     'id' => $data['.id'],
+                    'server' => $data['server'] ?? '',
                     'name' => $data['name'],
-                    'alias' => $alias,
-                    'price' => $price,
-                    'uptime' => $uptime,
-                    'gracePeriod' => $gracePeriod,
-                    'sharedUsers' => $data['shared-users'],
-                    'rateLimit' => $data['rate-limit'] ?? '' ,
+                    'password' => $data['password'] ?? '',
+                    'profile' => $data['profile'] ?? '',
+                    'comment' => $data['comment'] ?? '',
+                    'agenCode' => $commentData ? $commentData[1] : '',
                 ]);
                 
-                if ($whereId) return $vc;
                 
-                $vouchers[] = $vc;
+                $users[] = $user;
             }
-            return $vouchers;
+            
+            return $users;
         }
         else
         {
@@ -106,30 +88,23 @@ class HotspotUser extends Model
         $api = AppHelper::getApi();
         if (!$api) throw new Exception("Api not found, please configure your api username and password");
         
-        $old = $api->comm("/ip/hotspot/user/profile/print", [
+        $old = $api->comm("/ip/hotspot/user/print", [
             '?.id' => $this->id
         ]);
         
-        $command = "/ip/hotspot/user/profile/".($old ? 'set' : 'add');
-        $onlogin = minifyRos(str_replaces(file_get_contents(Yii::getAlias('@app/ros/onlogin.ros')), [
-            '{{VC_ALIAS}}' => $this->alias,
-            '{{PRICE}}' => $this->price,
-            '{{UPTIME}}' => $this->uptime,
-            '{{GRACE_PERIOD}}' => $this->gracePeriod,
-        ]));
+        $command = "/ip/hotspot/user/".($old ? 'set' : 'add');
         
-        $comm = $api->comm($command, \yii\helpers\ArrayHelper::merge(
-            !$old ? [] : 
-            [
-                '.id' => $this->id,
-            ], [
-                'name' => $this->name,
-                'shared-users' => $this->sharedUsers,
-                'rate-limit' => $this->rateLimit,
-                'add-mac-cookie' => $this->addMacCookie,
-                'on-login' => $onlogin
-            ])
-        );
+        $attributes = [
+            'name' => $this->name,
+            'password' => $this->password,
+        ];
+        
+        if ($this->server) $attributes['server'] = $this->server;
+        if ($this->profile) $attributes['profile'] = $this->profile;
+        if ($this->comment) $attributes['comment'] = $this->comment;
+        
+        $comm = $api->comm($command,
+            ArrayHelper::merge(!$old ? [] : [ '.id' => $this->id ], $attributes));
         
         return true;
     }

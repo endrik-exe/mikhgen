@@ -25,8 +25,9 @@ class DashboardOverview extends Model
     
     public $thisMonthSale = 0;
     public $thisMonthSaleCount = 0;
-    public $thisDaySale = 0;
+    public $thisDaySaleAmount = 0;
     public $thisDaySaleCount = 0;
+    public $thisDaySales = [];
     
     public $bonus = 0;
     public $bonusAdjustment = 0;
@@ -57,7 +58,14 @@ class DashboardOverview extends Model
             $this->thisMonthSaleCount++;
             if (date('Y-m-d') == $sale['saleDate'])
             {
-                $this->thisDaySale += $sale['price'];
+                $commentData = explode('-', $sale['comment']);
+                
+                $this->thisDaySales[] = \yii\helpers\ArrayHelper::merge($sale, [
+                    'agenCode' => $commentData[0] == 'vc' ? ($commentData[3] ?? '') : '',
+                    'profileAlias' => $commentData[0] == 'vc' ? ($commentData[5] ?? '') : '',
+                ]);
+                
+                $this->thisDaySaleAmount += $sale['price'];
                 $this->thisDaySaleCount++;
             }
         }

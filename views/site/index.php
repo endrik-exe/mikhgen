@@ -4,6 +4,7 @@
 use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
@@ -25,6 +26,12 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
     table.mytable th, table.mytable td {
         border: 1px solid gray;
         padding: 4px;
+    }
+    .detail-tab > .menu {
+        border-radius: 0 !important;
+    }
+    .detail-tab > .menu > .item {
+        border-bottom-width: 3px !important;
     }
 </style>
 <div class="ui dimmer modal transition">
@@ -119,7 +126,7 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
                 <i class="chart line icon"></i> <?= $model->thisDaySaleCount ?> vcr
             </div>
             <div class="label">
-                Hari Ini, Rp. <?= floatToDecimal($model->thisDaySale) ?>
+                Hari Ini, Rp. <?= floatToDecimal($model->thisDaySaleAmount) ?>
             </div>
         </div>
         <div class="red statistic">
@@ -177,29 +184,50 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
         </tbody>
     </table>
 </div>
-<div class="ui vertical segment" style="padding: 1em;">
-    <div class="ui medium header">
-        PENGGUNA AKTIF
+<div class="ui vertical segment detail-tab" style="padding: 4px 0px;">
+    <div class="ui top attached pointing secondary menu">
+        <a class="item active" data-tab="tab-1">PENGGUNA AKTIF</a>
+        <a class="item" data-tab="tab-2">PENJUALAN HARI INI</a>
+    </div>
+    <div class="ui bottom attached tab segment active" data-tab="tab-1" style="margin: 0px">
         <div class="sub header"><?= count($model->activeUsers) ?> Pengguna</div>
-    </div>
-    <div class="ui middle aligned divided list">
-        <?php FOREACH ($model->activeUsers as $user) : ?>
-        <div class="item">
-            <div class="right floated content">
-                <div class="circular ui red mini icon button"><i class="icon minus"></i></div>
+        <div class="ui middle aligned divided list">
+            <?php FOREACH ($model->activeUsers as $user) : ?>
+            <div class="item">
+                <div class="right floated content">
+                    <div class="circular ui red mini icon button"><i class="icon minus"></i></div>
+                </div>
+                <i class="large middle aligned icon" style="min-width: 46px"><?= $user['profileAlias'] ?></i>
+                <div class="content">
+                    <a class="header"><?= $user['user'] ?></a>
+                    <div class="description">Uptime <?= formatTimespan($user['uptime']) ?></div>
+                </div>
             </div>
-            <i class="large middle aligned icon" style="min-width: 46px"><?= $user['profileAlias'] ?></i>
-            <div class="content">
-                <a class="header"><?= $user['user'] ?></a>
-                <div class="description">Uptime <?= formatTimespan($user['uptime']) ?></div>
-            </div>
+            <?php ENDFOREACH; ?>
         </div>
-        <?php ENDFOREACH; ?>
+    </div>
+    <div class="ui bottom attached  tab segment" data-tab="tab-2" style="margin: 0px">
+       <div class="sub header"><?= count($model->thisDaySales) ?> Voucher</div>
+       <div class="ui middle aligned divided list">
+            <?php FOREACH ($model->thisDaySales as $sale) : ?>
+            <div class="item">
+                <i class="large middle aligned icon" style="min-width: 46px"><?= $sale['profileAlias'] ?></i>
+                <div class="content">
+                    <a class="header"><?= "{$sale['agenCode']} - {$sale['name']}" ?></a>
+                    <div class="description"><?= "Rp. {$sale['price']}, &nbsp; Jam: ".date('H:i', strtotime($sale['saleTime'])) ?></div>
+                </div>
+            </div>
+            <?php ENDFOREACH; ?>
+        </div>
     </div>
 </div>
-<div class="ui vertical segment">
-    <p></p>
-</div>
+<script>
+    ready(function(){
+        $('.detail-tab .menu .item').tab({
+            context: '.detail-tab'
+        }); 
+    });
+</script>
 <div class="ui vertical segment">
     <p></p>
 </div>
