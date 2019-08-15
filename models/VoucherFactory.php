@@ -11,6 +11,7 @@ use function str_replaces;
 /**
  * Used to generate voucher
  *
+ * @property integer $agenId
  * @property string $profile
  * @property string $server
  * @property string $agen
@@ -19,6 +20,8 @@ use function str_replaces;
  */
 class VoucherFactory extends Voucher
 {
+    public $agenId;
+    
     public $profile;
     public $server;
     public $agenCode;
@@ -31,9 +34,15 @@ class VoucherFactory extends Voucher
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['profile', 'server', 'agenCode'], 'string', 'max' => 45],
-            [['qty'], 'integer'],
+            [['profile', 'server', 'agenCode', 'vcAlias'], 'string'],
+            [['qty', 'agenId'], 'integer'],
         ]);
+    }
+    
+    public function attributeLabels() {
+        return [
+            'agenId' => 'Agen'
+        ];
     }
     
     public function generate()

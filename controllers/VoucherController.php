@@ -64,13 +64,26 @@ class VoucherController extends MainController
     public function actionGenerate($id = null)
     {
         $voucherFactory = new VoucherFactory([
-            'qty' => 20,
-            'agenCode' => 'NEW',
-            'profile' => 'V1H-5000',
-            'vcAlias' => 'V1H',
+            'qty' => 1
         ]);
         
-        return $this->asJson($voucherFactory->generate());
+        if ($id)
+        {
+            $profile = Voucher::getVoucher($id);
+            if ($profile)
+            {
+                $voucherFactory->profile = $profile->name;
+            }
+        }
+        
+        if ($voucherFactory->load(Yii::$app->request->post()))
+        {
+            return $this->asJson($voucherFactory->generate());
+        }
+        
+        return $this->render('generate', [
+            'model' => $voucherFactory,
+        ]);
     }
     
     public function actionToggleActive($id)

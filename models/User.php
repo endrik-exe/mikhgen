@@ -3,8 +3,8 @@ namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -206,5 +206,28 @@ class User extends ActiveRecord implements IdentityInterface
     public function search()
     {
         return User::find()->all();
+    }
+    
+    public static function getDropdownList($mapTo = 'userName', $condition = [])
+    {
+        if (!$mapTo) $mapTo = 'userName';
+        
+        $models = self::find()
+            ->filterWhere($condition)
+            ->all();
+        
+        if (is_array($mapTo))
+        {
+            $result = [];
+            
+            foreach ($models as $model)
+            {
+                $result[$model->primaryKey] = $mapTo;
+            }
+            
+            return $result;
+        }
+        
+        return ArrayHelper::map($models, 'id', $mapTo);
     }
 }

@@ -5,6 +5,8 @@ use app\components\AppHelper;
 use Exception;
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
+use function minifyRos;
 use function str_replaces;
 
 /**
@@ -46,12 +48,14 @@ class Voucher extends Model
         return $this->id;
     }
     
+    static $cacheGet = null;
     public static function getVoucher($whereId = null)
     {
         $api = AppHelper::getApi();
         if ($api)
         {
-            $query = $api->comm("/ip/hotspot/user/profile/print");
+            if (!self::$cacheGet) self::$cacheGet = $api->comm("/ip/hotspot/user/profile/print");
+            $query = self::$cacheGet ;
 
             $vouchers = [];
             foreach ($query as $data)
@@ -116,7 +120,7 @@ class Voucher extends Model
             '{{GRACE_PERIOD}}' => $this->gracePeriod,
         ]));
         
-        $comm = $api->comm($command, \yii\helpers\ArrayHelper::merge(
+        $comm = $api->comm($command, ArrayHelper::merge(
             !$old ? [] : 
             [
                 '.id' => $this->id,
@@ -130,5 +134,12 @@ class Voucher extends Model
         );
         
         return true;
+    }
+    
+    public static function getDropdownList($mapTo = 'name')
+    {
+        $models = self::getVoucher();
+        
+        return ArrayHelper::map($models, 'name', $mapTo);
     }
 }
