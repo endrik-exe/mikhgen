@@ -83,27 +83,18 @@ class HotspotUserController extends MainController
     
     public function actionPrint()
     {
-        $users = [];
+        $users = HotspotUser::getUsers([
+            '?comment' => 'vc.|.NEW.|.V2H.|.2019-08-16 00:13:33.|.x1.|.q100'
+        ]);
         
-        for ($i = 0; $i < 5; $i++)
-        {
-            $users[] = new HotspotUser([
-                'userName' => 'UserName',
-                'password' => 'Password',
-                'comment' => 'comment',
-                'profileId' => 'id',
-                'profileName' => 'V1H',
-                'profileAlias' => 'V1H',
-                'price' => 5000,
-                'uptime' => '1d',
-            ]);
-        }
+        /*return $this->asJson(array_map(function($x){
+            return $x->profile;
+        }, $users));
+        return $this->asJson($users);*/
         
         return $this->renderPartial('print', [
             'dnsName' => 'nking.net',
             'hotspotName' => 'nKing',
-            'profile' => 'profile',
-            'id' => 'id',
             'template' => 'big',
             'users' => $users,
         ]);

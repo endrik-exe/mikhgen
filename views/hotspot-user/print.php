@@ -14,7 +14,7 @@ use yii\web\View;
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Voucher-<?= $hotspotName . "-" . $profile . "-" . $id; ?></title>
+        <title>Voucher-<?= $hotspotName; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="pragma" content="no-cache" />
         <link rel="icon" href="../img/favicon.png" />
@@ -66,20 +66,22 @@ use yii\web\View;
         FOREACH ($users as $user)
         {
             $qrSize = "80x80";
-            $qrUrl = urlencode("http://$dnsName/login?username=$user->userName&password=$user->password");
+            $qrUrl = urlencode("http://$dnsName/login?username=$user->name&password=$user->password");
             $qrCode = 'https://chart.googleapis.com/chart?cht=qr&chs=' . $qrSize . '&chld=L|0&chl=' . $qrUrl . '&choe=utf-8';
+            
+            $profile = $user->profile;
             
             echo $this->renderPhpFile(Yii::getAlias("@app/web/templates/$template/index.php"), [
                 'path' => Yii::getAlias("@web/templates/$template"),
                 'userMode' => 'vc',
-                'userName' => $user->userName,
+                'userName' => $user->name,
                 'password' => $user->password,
                 'comment' => $user->comment,
-                'profileId' => $user->profileId,
-                'profileName' => $user->profileName,
-                'profileAlias' => $user->profileAlias,
-                'price' => $user->price,
-                'uptime' => $user->uptime,
+                'profileId' => $profile->id,
+                'profileName' => $profile->name,
+                'profileAlias' => $profile->alias,
+                'price' => $profile->price,
+                'uptime' => $profile->uptime,
                 'qrCode' => $qrCode,
                 'num' => $num++,
             ]);

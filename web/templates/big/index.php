@@ -75,7 +75,7 @@ $color = "#ff3100";
 <td style="width:100px;text-align:right;">
 <div style="clear:both;padding:0 2.5px;font-size:10px;font-weight:bold;color:#000000">
 <?php echo $uptime;?>
-<br><?php echo $comment;?>	
+<br><span style="color: #9a9a9a"><?php echo $comment;?></span>
 </td>
 <div style="padding:center;width:100%;margin:0 5px -20px 0;"><img style="width:100%;" src="<?php echo $qrCode ?>" alt="qrcode"></div>
 </td>		

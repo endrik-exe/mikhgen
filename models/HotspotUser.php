@@ -14,7 +14,8 @@ use const DELIMITER;
  * @property string $id
  * @property string $server
  * @property string $name
- * @property string profile
+ * @property string profileId
+ * @property string profileName
  * @property string $password
  * @property string $comment
  * @property string $agenCode
@@ -25,7 +26,8 @@ class HotspotUser extends Model
     public $server;
     public $name;
     public $password;
-    public $profile;
+    public $profileId;
+    public $profileName;
     public $comment;
     public $agenCode;
     
@@ -35,13 +37,32 @@ class HotspotUser extends Model
     public function rules()
     {
         return [
-            [['id', 'server', 'name', 'password', 'profile', 'comment', 'agenCode'], 'string']
+            [['id', 'server', 'name', 'password', 'profileId', 'profileName', 'comment', 'agenCode'], 'string']
         ];
     }
     
     public function getPrimaryKey()
     {
         return $this->userName;
+    }
+    
+    private $cacheProfile;
+    public function getProfile()
+    {
+        if (!$this->cacheProfile)
+        {
+            $profiles = Voucher::getVoucher();
+            $profileName = $this->profileName;
+            $index = -1;
+            if (array_find($profiles, $index, function($x) use ($profileName){
+                return $x->name == $profileName;
+            }))
+            {
+                $this->cacheProfile = $profiles[$index];
+            }
+        }
+        
+        return $this->cacheProfile;
     }
     
     public static function getUsers($filter = [])
@@ -66,10 +87,11 @@ class HotspotUser extends Model
                     'server' => $data['server'] ?? '',
                     'name' => $data['name'],
                     'password' => $data['password'] ?? '',
-                    'profile' => $data['profile'] ?? '',
+                    'profileName' => $data['profile'] ?? '',
                     'comment' => $data['comment'] ?? '',
                     'agenCode' => $commentData ? $commentData[1] : '',
                 ]);
+                $user->getProfile();
                 
                 
                 $users[] = $user;
@@ -100,7 +122,7 @@ class HotspotUser extends Model
         ];
         
         if ($this->server) $attributes['server'] = $this->server;
-        if ($this->profile) $attributes['profile'] = $this->profile;
+        if ($this->profileName) $attributes['profile'] = $this->profileName;
         if ($this->comment) $attributes['comment'] = $this->comment;
         
         $comm = $api->comm($command,

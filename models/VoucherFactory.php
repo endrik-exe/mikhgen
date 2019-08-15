@@ -63,13 +63,13 @@ class VoucherFactory extends Voucher
             
             $newUser = new HotspotUser([
                 'server' => $this->server,
-                'profile' => $this->profile,
+                'profileName' => $this->profile,
                 'name' => $newName,
                 'password' => $newName,
                 'comment' => $comment,
             ]);
             
-            //$newUser->save();
+            $newUser->save();
             
             $generated[] = $newUser;
         }
