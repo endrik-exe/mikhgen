@@ -19,7 +19,7 @@ class HotspotUserController extends MainController
      */
     public function actionIndex()
     {
-        $model = new User();
+        $model = new HotspotUser();
         
         return $this->render('index', [
             'model' => $model,
@@ -47,7 +47,8 @@ class HotspotUserController extends MainController
     
     public function actionUpdate($id)
     {
-        $model = User::findOne($id);
+        $model = HotspotUser::getUsers(['?.id' => $id]);
+        if (count($model) > 0) $model = $model[0];
         
         if ($model->load(Yii::$app->request->post()))
         {

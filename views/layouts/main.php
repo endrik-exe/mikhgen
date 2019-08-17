@@ -18,7 +18,6 @@ MainAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
     <script>
         window.readyHandlers = [];
         window.ready = function ready(handler) {
@@ -60,6 +59,7 @@ MainAsset::register($this);
             alert('Bye Now');
         }
     </script>
+    <?php $this->head() ?>
 </head>
 <body onunload="unloadPage()" >
 <?php $this->beginBody() ?>

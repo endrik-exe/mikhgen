@@ -3,10 +3,11 @@ namespace app\models;
 
 use app\components\AppHelper;
 use Exception;
-use Yii;
 use yii\base\Model;
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use const DELIMITER;
+use function array_find;
 
 /**
  * User model
@@ -43,7 +44,7 @@ class HotspotUser extends Model
     
     public function getPrimaryKey()
     {
-        return $this->userName;
+        return $this->id;
     }
     
     private $cacheProfile;
@@ -103,6 +104,11 @@ class HotspotUser extends Model
         {
             throw new Exception('Api not found, please configure your api username and password');
         }
+    }
+    
+    public function search()
+    {
+        return self::getUsers();
     }
     
     public function save()

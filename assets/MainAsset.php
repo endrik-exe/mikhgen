@@ -15,15 +15,21 @@ class MainAsset extends AssetBundle
     //public $baseUrl = '@web';
     public $sourcePath = '@app/assets/mainasset';
     public $css = [
-        'style.css?v=1.7'
+        'style.css?v=1.8'
     ];
     public $js = [
-        'semantic-ui-vue.min.js'
+        'semantic-ui-vue.min.js',
+        'jquery.floatThead.min.js',
+        'app.js?v=1.0',
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
     
     public $depends = [
         'app\assets\VueAsset',
         'app\assets\SemanticUIAsset'
+    ];
+    
+    public $publishOptions = [
+        //'forceCopy' => true
     ];
 }

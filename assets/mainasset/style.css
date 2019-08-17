@@ -58,3 +58,24 @@ body > .nav.segment
 .ui.selection.dropdown {
     min-width: 50px;
 }
+
+
+.eexe.table.container > table.ui.table {
+    margin: 0 0;
+    border-radius: .28571429rem .28571429rem 0px 0px
+}
+
+.eexe.table.container .scrolling.content {
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.eexe.table.container > .content > table.ui.table {
+    border-top: none;
+    border-radius: 0px 0px .28571429rem .28571429rem;
+}
+
+.eexe.table.container > .floatThead-wrapper table.ui.table {
+    border-top: 1px solid transparent;
+    border-radius: 0px 0px 0.285714rem 0.285714rem;
+}

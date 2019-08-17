@@ -18,7 +18,7 @@ $user = Yii::$app->user->identity;
         width: 100vw;
         height:100vh;
         max-width: 600px;
-        z-index: 99;
+        z-index: 10000;
         padding-top: calc(39px + 2rem);
         visibility: hidden;
         overflow: hidden;
@@ -102,7 +102,7 @@ $user = Yii::$app->user->identity;
         margin: 0 .5em 0 0;
     }
 </style>
-<div class="ui clearing nav segment" style="border-radius: 0px; margin-top: 0px; position:fixed; z-index: 100; left: 0px; right: 0px;overflow: hidden; border-width: 0px 0px 1px 0px;">
+<div class="ui clearing nav segment" style="border-radius: 0px; margin-top: 0px; position:fixed; z-index: 10001; left: 0px; right: 0px;overflow: hidden; border-width: 0px 0px 1px 0px;">
     <button class="ui right floated basic teal circular icon button user" onclick="$('body').toggleClass('open-right');">
         <i class="icon user outline"></i>
     </button>
@@ -134,6 +134,12 @@ $user = Yii::$app->user->identity;
             </a>
             <a class="item" href="#">
                 <i class="money bill alternate outline icon"></i> SALES
+            </a>
+            <a class="item" href="<?= Url::to(['/subscription-user'])?>">
+                <i class="user outline icon"></i> SUBSCRIPTION USER
+            </a>
+            <a class="item" href="<?= Url::to(['/hotspot-user'])?>">
+                <i class="tachometer alternate icon"></i> SUBSCRIPTION PROFILE
             </a>
             <a class="item" href="<?= Url::to(['/hotspot-user'])?>">
                 <i class="wifi icon"></i> HOTSPOT USER
