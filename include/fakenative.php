@@ -254,3 +254,12 @@ function random($length, $mode = RAND_ALPHANUMERIC, $uppercase = false) {
     }
     return $result;
 }
+
+function arrayMapTo(array $array, string $property, $unique = false)
+{
+    $mapped = array_map(function($x) use ($property){
+        return $x->$property;
+    }, $array);
+    
+    return $unique ? array_values(array_unique($mapped)) : $mapped;
+}

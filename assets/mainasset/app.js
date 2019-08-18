@@ -11,16 +11,28 @@ function initApp() {
     $('.eexe.table.container').each((index, el) => {
         $(el).find('> .content > table.ui.table').floatThead({
             scrollContainer: function($table){
-                        console.log($table.parent('.scrolling.content'));
                 return $table.parent('.scrolling.content');
             }
         });
     });
     
-    repeat(10, 200, 200, function(){
+    repeat(5, 200, 200, function(){
        $(window).resize(); 
     });
 }
+
+$(document).on('click', '[data-modal]', function(e){
+    e.preventDefault();
+    
+    $modal = $($(this).data('modal'));
+    
+    $modal.modal({
+        transition: 'fade up'
+    })
+    .modal('show');
+    
+    
+});
 
 function repeat(times, interval, delay, callback)
 {

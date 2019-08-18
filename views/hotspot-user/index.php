@@ -1,13 +1,70 @@
 <?php
 
 use app\widgets\Toolbar;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 /* @var $this View */
 
 $this->title = 'User - Agen nKing';
 
 ?>
+<div class="ui tiny filter modal">
+    <i class="close icon"></i>
+    <div class="header">Filter</div>
+    <div class="content">
+        <?php $form = ActiveForm::begin([
+            'id' => 'form-filter',
+            'method' => 'get',
+        ]); ?>
+        <div class="ui unstackable tiny form filter">
+            <div class="fields">
+                <div class="eight wide field">
+                    <label>Name</label>
+                    <?= Html::activeTextInput($model, 'name', [
+                        'class' => '',
+                        'placeholder' => 'Search name'
+                    ]) ?>
+                </div>
+                <div class="eight wide field" style="width: 30%">
+                    <label>Profile</label>
+                    <?= Html::activeDropDownList($model, 'profileName',
+                        ArrayHelper::merge(['' => 'All'], ArrayHelper::map($model->getList(), 'profileName', 'profileName')),
+                    [
+                        'class' => 'ui search dropdown profileName',
+                        'value' => $model->profileName
+                    ]) ?>
+                </div>
+            </div>
+            <div class="fields">
+                <div class="sixteen wide field" style="width: 30%">
+                    <label>Comement</label>
+                    <?= Html::activeDropDownList($model, 'comment',
+                        ArrayHelper::merge(['' => 'All'], ArrayHelper::map($model->getList(), 'comment', 'comment')),
+                    [
+                        'class' => 'ui search dropdown comment',
+                        'value' => $model->comment
+                    ]) ?>
+                </div>
+            </div>
+            <script>
+                ready(() => {
+                    $('.search.dropdown.profileName, .search.dropdown.comment').dropdown({
+                        fullTextSearch: true,
+                        allowAdditions: true,
+                        forceSelection: false,
+                        clearable: true
+                    });
+                });
+            </script>
+        </div>
+        <?php $form->end(); ?>
+    </div>
+    <div class="actions">
+        <button type="submit" form="form-filter" class="ui tiny primary button">Filter</button>
+    </div>
+</div>
 <div class="ui vertical segment" style="padding: 1em;">
     <div class="eexe table container">
         <table class="ui teal celled striped small table unstackable">

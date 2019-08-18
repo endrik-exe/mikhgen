@@ -15,12 +15,12 @@ class MainAsset extends AssetBundle
     //public $baseUrl = '@web';
     public $sourcePath = '@app/assets/mainasset';
     public $css = [
-        'style.css?v=1.8'
+        'style.css?v=1.9'
     ];
     public $js = [
         'semantic-ui-vue.min.js',
         'jquery.floatThead.min.js',
-        'app.js?v=1.0',
+        'app.js?v=1.1',
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
     
@@ -30,6 +30,6 @@ class MainAsset extends AssetBundle
     ];
     
     public $publishOptions = [
-        //'forceCopy' => true
+        'forceCopy' => true
     ];
 }

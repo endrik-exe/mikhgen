@@ -25,8 +25,9 @@ class Toolbar extends Widget
                 ]);
             },
             'filter' => function($model){
-                return Html::a('<i class="filter icon"></i>', ['filter', 'referrer' => currentRef()], [
-                    'class' => 'ui right floated mini icon button'
+                return Html::a('<i class="filter icon"></i>', '#', [
+                    'class' => 'ui right floated mini icon button',
+                    'data-modal' => '.filter.modal'
                 ]);
             }
         ];

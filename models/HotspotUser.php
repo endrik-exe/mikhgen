@@ -66,12 +66,22 @@ class HotspotUser extends Model
         return $this->cacheProfile;
     }
     
+    static $queryCache = null;
     public static function getUsers($filter = [])
     {
         $api = AppHelper::getApi();
         if ($api)
         {
-            $query = $api->comm("/ip/hotspot/user/print", $filter);
+            if (count($filter) == 0)
+            {
+                if (!self::$queryCache) self::$queryCache = $api->comm("/ip/hotspot/user/print", $filter);
+                
+                $query = self::$queryCache;
+            } else
+            {
+                $query = $api->comm("/ip/hotspot/user/print", $filter);
+            }
+            
 
             //return $query;
             
@@ -106,9 +116,19 @@ class HotspotUser extends Model
         }
     }
     
+    public static function getList($filter = [])
+    {
+        return self::getUsers($filter);
+    }
+    
     public function search()
     {
-        return self::getUsers();
+        $filter = $this;
+        return array_filter(self::getUsers(), function($x) use ($filter) {
+            return (!$filter->name || strpos($x->name, $filter->name) !== false)
+                && (!$filter->profileName || strpos($x->profileName, $filter->profileName) !== false)
+                && (!$filter->comment || strpos($x->comment, $filter->comment) !== false);
+        });
     }
     
     public function save()

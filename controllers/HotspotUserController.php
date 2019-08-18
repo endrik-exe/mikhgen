@@ -5,6 +5,7 @@ use app\controllers\MainController;
 use app\models\HotspotUser;
 use app\models\User;
 use Yii;
+use yii\helpers\ArrayHelper;
 use function referrer;
 
 /**
@@ -20,6 +21,9 @@ class HotspotUserController extends MainController
     public function actionIndex()
     {
         $model = new HotspotUser();
+        
+        $model->load(Yii::$app->request->get());
+        //Yii::trace($model, 'WKWK');
         
         return $this->render('index', [
             'model' => $model,
