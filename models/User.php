@@ -230,4 +230,11 @@ class User extends ActiveRecord implements IdentityInterface
         
         return ArrayHelper::map($models, 'id', $mapTo);
     }
+    
+    public static function getAllAgen()
+    {
+        return self::find()
+            ->where(['=', 'roleId', 2])
+            ->all();
+    }
 }

@@ -28,6 +28,7 @@ body {
     background-color: #d6d6d6;
     margin-left: auto;
     margin-right: auto;
+    height: auto
 }
 body > .main.wrap{
     background-color: white;
@@ -62,7 +63,7 @@ body > .nav.segment
 
 /* S T A R T  M O D A L S */
 .ui.dimmer.modals {
-    z-index: 20000;
+    /*z-index: 20000;*/
 }
 /* E N D  M O D A L S */
 

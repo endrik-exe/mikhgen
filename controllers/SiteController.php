@@ -51,6 +51,7 @@ class SiteController extends MainController
         
         if ($model->month == 6) $model->agenCode .= '-JUN';
         
+        //return $this->asJson($model->getSales());
         $model->getSales();
         return $this->render('index', [
             'model' => $model,

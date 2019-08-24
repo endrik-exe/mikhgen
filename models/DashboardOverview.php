@@ -47,6 +47,7 @@ class DashboardOverview extends Model
     {
         try {
             $sales = Sales::getSalesWith($this->agenCode, $this->year, $this->month, Sales::SOURCE_BOTH);
+            //return $sales;
         } catch (Exception $ex) {
             $this->addError(null, $ex->getMessage());
             return [];
@@ -56,14 +57,11 @@ class DashboardOverview extends Model
         {
             $this->thisMonthSale += $sale['price'];
             $this->thisMonthSaleCount++;
-            if (date('Y-m-d') == $sale['saleDate'])
+            if (date('Y-m-d') == date('Y-m-d', strtotime($sale['saleDate'])))
             {
                 $commentData = explode('-', $sale['comment']);
                 
-                $this->thisDaySales[] = \yii\helpers\ArrayHelper::merge($sale, [
-                    'agenCode' => $commentData[0] == 'vc' ? ($commentData[3] ?? '') : '',
-                    'profileAlias' => $commentData[0] == 'vc' ? ($commentData[5] ?? '') : '',
-                ]);
+                $this->thisDaySales[] = $sale;
                 
                 $this->thisDaySaleAmount += $sale['price'];
                 $this->thisDaySaleCount++;

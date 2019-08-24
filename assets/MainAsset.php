@@ -15,7 +15,7 @@ class MainAsset extends AssetBundle
     //public $baseUrl = '@web';
     public $sourcePath = '@app/assets/mainasset';
     public $css = [
-        'style.css?v=1.9'
+        'style.css?v=2.1'
     ];
     public $js = [
         'semantic-ui-vue.min.js',
@@ -30,6 +30,6 @@ class MainAsset extends AssetBundle
     ];
     
     public $publishOptions = [
-        'forceCopy' => true
+        //'forceCopy' => true
     ];
 }

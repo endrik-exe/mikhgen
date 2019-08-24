@@ -214,7 +214,7 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
                 <i class="large middle aligned icon" style="min-width: 46px"><?= $sale['profileAlias'] ?></i>
                 <div class="content">
                     <a class="header"><?= "{$sale['agenCode']} - {$sale['name']}" ?></a>
-                    <div class="description"><?= "Rp. {$sale['price']}, &nbsp; Jam: ".date('H:i', strtotime($sale['saleTime'])) ?></div>
+                    <div class="description"><?= "Rp. {$sale['price']}, &nbsp; Jam: ".date('H:i', strtotime($sale['saleDate'])) ?></div>
                 </div>
             </div>
             <?php ENDFOREACH; ?>
@@ -227,10 +227,4 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
             context: '.detail-tab'
         }); 
     });
-</script>
-<div class="ui vertical segment">
-    <p></p>
-</div>
-<script>
-    
 </script>

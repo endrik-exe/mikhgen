@@ -42,7 +42,7 @@ MainAsset::register($this);
                     variation: 'inverted'
                 },
                 onHide: function(){
-                    $('.main.wrap').show();
+                    //$('.main.wrap').show();
                 }
             }).modal('show');
         }
@@ -58,25 +58,26 @@ MainAsset::register($this);
         {
             alert('Bye Now');
         }
+        
     </script>
     <?php $this->head() ?>
 </head>
-<body onunload="unloadPage()" >
+<body onunload="unloadPage()">
 <?php $this->beginBody() ?>
 <div class="ui basic page-loader modal">
     <div class="ui active centered text loader">LOADING</div>
 </div>
 <script>
+    //loadPage();
     window.addEventListener('load', function(){
         loadFinish();
     });
     window.addEventListener('beforeunload', function(){
         loadPage();
     });
-    loadPage();
 </script>
 <?php if (Yii::$app->user->identity) echo $this->render('header'); ?>
-<div class="main wrap" style="display: none; overflow-x: hidden; padding-top: 65px; min-height: 100vh" >
+<div class="main wrap" style="/*display: none;*/ overflow-x: hidden; padding-top: 65px; min-height: 100vh" >
     <?= $content ?>
 </div>
 <?php $this->endBody() ?>
