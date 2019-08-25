@@ -3,34 +3,13 @@
     <img align="center" src="https://media.giphy.com/media/YoE5bm8H2muwIvc0Dj/giphy.gif">
 </p>
 
-Mikhgen adalah aplikasi Agen Hotspot agar bisa memonitor penghasilannya, aplikasi ini simple, hanya menarik laporan penjualan dari mikrotik, aplikasi ini harus di padukan dengan Mikhmon v2.
-
-
-DIRECTORY STRUCTURE
--------------------
-
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+Mikhgen adalah aplikasi Agen Hotspot agar bisa memonitor penghasilannya, aplikasi ini awalnya dibuat hanya untuk menarik laporan sales dari mikrotik yg digenerate oleh mikhmon, namun seiring waktu project ini menjadi mature dan jauh dari ekspektasi awal dan menjadi aplikasi yang semakin lengkap fiturnya dan berjalan sendiri tanpa mikhmon.
 
 
 PRE REQUISITES
 ------------
 
 Sebelum bisa menjalankan aplikasi, anda perlu install [Composer](http://getcomposer.org/), agar bisa mengupdate dependency pada aplikasi ini. 
-
-REQUIREMENTS
-------------
-
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
 
 
 CONTRIBUTING
@@ -51,25 +30,4 @@ Setelah anda clone repository ini, sebelum mengubah konfigurasi, silahkan anda r
 CONFIGURATION
 -------------
 
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTES:**
-- Database tidak akan dibuat secara otomatis, anda harus membuat databasenya secara manual, sebelum menjalankan aplikasi
-- Check and edit the other files in the `config/` directory to customize your application as required.
-
-
-FITUR
--------
-- To be edited
+TO BE ADDED
