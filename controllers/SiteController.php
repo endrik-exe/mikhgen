@@ -49,7 +49,7 @@ class SiteController extends MainController
             BonusAdjustment::adjust ($model->agenCode, $model->year, $model->month,
                 Yii::$app->request->post('adjust-bonus'));
         
-        if ($model->month == 6) $model->agenCode .= '-JUN';
+        //if ($model->month == 6) $model->agenCode .= '-JUN';
         
         //return $this->asJson($model->getSales());
         $model->getSales();

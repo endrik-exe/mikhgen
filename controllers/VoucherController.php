@@ -5,6 +5,7 @@ use app\controllers\MainController;
 use app\models\User;
 use app\models\Voucher;
 use app\models\VoucherFactory;
+use app\widgets\Messages;
 use Yii;
 use function referrer;
 
@@ -78,7 +79,15 @@ class VoucherController extends MainController
         
         if ($voucherFactory->load(Yii::$app->request->post()))
         {
-            return $this->asJson($voucherFactory->generate());
+            $generated = $voucherFactory->generate();
+            
+            if ($generated)
+            {
+                Messages::alertViaFlash(NULL, "Voucher berhasil di generate sebanyak ".count($generated)
+                    ."<br>Comment Stamp: <br>".$generated[0]->comment);
+                
+                return $this->redirect(referrer());
+            }
         }
         
         return $this->render('generate', [

@@ -146,11 +146,25 @@ function currentRef()
 
 function referrer($default = null)
 {
-    if (!$default) $default = [Yii::$app->controller->id];
+    if (!$default) $default = ["/".Yii::$app->controller->id];
     
     $get = urldecode(Yii::$app->request->get('referrer'));
     $post = urldecode(Yii::$app->request->post('referrer'));
     $header = Yii::$app->request->referrer;
+    if ($header)
+    {
+        $parsedHeader = parse_url($header);
+        $path = $parsedHeader['path'];
+        $path = explode('/', $path);
+        
+        $controller = count($path) > 1 ? $path[1] : null;
+        $action = count($path) > 2 ? $path[2] : null;
+        
+        if ($action && ($action == Yii::$app->controller->action->id && $controller == Yii::$app->controller->id))
+        {
+            $header = null;
+        }
+    }
     
     if ($get) return $get;
     else if ($post) return $post;

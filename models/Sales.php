@@ -165,7 +165,50 @@ class Sales extends ActiveRecord
                     if ($agenCode && strpos($sale['comment'], $agenCode) === false) continue;
                     if ($agenCode == 'MDR' && strpos($sale['comment'], $missingMDR) !== false) continue;
                     $sale->idStamp = $sale->name.'-'.strtotime($saleDate);
-                    //$ex = self::findOne($sale->id);
+
+                    if ($sale->save())
+                    {
+                        $api->comm("/system/script/remove", [
+                            ".id" => "$sale->id",
+                        ]);
+                    } else {
+                        Yii::trace($sale->errors, 'WKWK');
+                    }
+
+                    if (in_array($sale->agenCode, $allAgenCodes))
+                        $sales[] = $sale;
+                }
+                
+                //           0       1       2       3        4         5         6        7
+                // name = "$agen.|.$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment"
+                //            0    1        2          3               4              5
+                // comment = vc.|.AGEN.|.VC_ALIAS.|.TIMESTAMP.|.xMONTH_GEN_COUNT.|.qGEN_QTY
+                $query = $api->comm("/system/script/print", [
+                    '?comment' => 'mikhgen_sales',
+                    '?owner' => $monthCode
+                ]);
+                
+                foreach ($query as $str)
+                {
+                    $data = explode( '.|.', $str['name'], 8);
+                    $commentData = explode('.|.', $data[7]);
+                    
+                    
+                    $saleDate = DateTime::createFromFormat('M/d/Y', $data[1])->format('Y-m-d').' '.$data[2];
+                    $sale = new self([
+                        'id' => $str['.id'],
+                        'saleDate' => $saleDate,
+                        'name' => $data[3],
+                        'price' => floatVal($data[6]),
+                        'profileName' => $data[4],
+                        'profileAlias' => $commentData[0] == 'vc' ? ($commentData[2] ?? '') : '',
+                        'agenCode' => $commentData[0] == 'vc' ? ($commentData[1] ?? '') : '',
+                        'comment' => $data[7],
+                        'sampleName' => $str['name'],
+                    ]);
+                    
+                    if ($agenCode && $sale->agenCode != $agenCode) continue;
+                    $sale->idStamp = $sale->name.'-'.strtotime($saleDate);
 
                     if ($sale->save())
                     {

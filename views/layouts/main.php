@@ -1,10 +1,12 @@
 <?php
 
-/* @var $this \yii\web\View */
+/* @var $this View */
 /* @var $content string */
 
-use yii\helpers\Html;
 use app\assets\MainAsset;
+use app\widgets\Messages;
+use yii\helpers\Html;
+use yii\web\View;
 
 MainAsset::register($this);
 ?>
@@ -80,6 +82,7 @@ MainAsset::register($this);
 <div class="main wrap" style="/*display: none;*/ overflow-x: hidden; padding-top: 65px; min-height: 100vh" >
     <?= $content ?>
 </div>
+<?= Messages::widget(); ?>
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 
+use app\widgets\Messages;
 use app\widgets\Toolbar;
 use yii\helpers\Html;
 use yii\web\View;

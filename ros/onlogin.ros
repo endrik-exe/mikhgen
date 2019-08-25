@@ -24,7 +24,7 @@
   :local comment [:put [/ip hotspot user get $user comment]];
   :local agen [:put [:pick $comment 0 [:find $comment ".|."]]];
   /system script add \
-  name="$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment" \
+  name="$agen.|.$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment" \
   owner="$bln$thn" \
   source=$date \
   comment=mikhgen_sales \

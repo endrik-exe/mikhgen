@@ -88,8 +88,11 @@ class HotspotUserController extends MainController
     
     public function actionPrint()
     {
+        $model = new HotspotUser();
+        $model->load(Yii::$app->request->get());
+        
         $users = HotspotUser::getUsers([
-            '?comment' => 'vc.|.NEW.|.V2H.|.2019-08-16 00:13:33.|.x1.|.q100'
+            '?comment' => $model->comment
         ]);
         
         /*return $this->asJson(array_map(function($x){

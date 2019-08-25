@@ -39,7 +39,7 @@ $this->title = 'User - Agen nKing';
             </div>
             <div class="fields">
                 <div class="sixteen wide field" style="width: 30%">
-                    <label>Comement</label>
+                    <label>Comment</label>
                     <?= Html::activeDropDownList($model, 'comment',
                         ArrayHelper::merge(['' => 'All'], ArrayHelper::map($model->getList(), 'comment', 'comment')),
                     [
@@ -77,7 +77,8 @@ $this->title = 'User - Agen nKing';
                             'buttons' => ['create', 'print', 'filter'],
                             'customTools' => [
                                 'print' => function($model){
-                                    return Html::a('<i class="print icon"></i>', ['print'], [
+                                    $parameters = Yii::$app->request->get();
+                                    return Html::a('<i class="print icon"></i>', ArrayHelper::merge(['print'], $parameters), [
                                         'class' => 'ui right floated mini basic primary icon button',
                                         'target' => '_blank'
                                     ]);

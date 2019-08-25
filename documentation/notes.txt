@@ -24,7 +24,7 @@ vc.|.PBR.|.V2H.|.2019-07-20 12:06:32.|.x1.|.q27
 
 
 #SCRIPTS SALES RECORD SIGNATURE (name)
-AGEN.|.$date.|.$time.|.$user.|.$profile.|.$price.|.$comment
+AGEN.|.$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment
 
 
 
