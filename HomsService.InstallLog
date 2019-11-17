@@ -1,0 +1,85 @@
+﻿Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+An exception occurred during the Rollback phase of the System.ServiceProcess.ServiceProcessInstaller installer.
+System.NullReferenceException: Object reference not set to an instance of an object.
+An exception occurred during the Rollback phase of the installation. This exception will be ignored and the rollback will continue. However, the machine might not fully revert to its initial state after the rollback is complete.
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing service Homs Service...
+Creating EventLog source Homs Service in log Application...
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Restoring event log to previous state for source Homs Service.
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing service Homs Service...
+Creating EventLog source Homs Service in log Application...
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Restoring event log to previous state for source Homs Service.
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing service Homs Service...
+Creating EventLog source Homs Service in log Application...
+Rolling back assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Restoring event log to previous state for source Homs Service.
+Installing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog
+Installing service Homs Service...
+Service Homs Service has been successfully installed.
+Creating EventLog source Homs Service in log Application...
+Committing assembly 'D:\xampp\htdocs\mikhgen\HomsService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\xampp\htdocs\mikhgen\HomsService.exe
+   logfile = D:\xampp\htdocs\mikhgen\HomsService.InstallLog

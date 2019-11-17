@@ -46,3 +46,25 @@ AGEN.|.$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment
 
 * AFTER GRACE SCHEDULE is executed
  - user will be removed completely
+
+
+
+- id
+- name
+- description
+- action
+- nextRunTime
+- expectedLastRunTime
+- lastRunTime
+- lastRunStatus
+- lastRunResult
+- repeatEvery (seconds)
+- isEnabled
+
+
+
+Jobs
+Sms Agen Notifier	Every 2 minutes		//info sales
+Sms Admin Notifier	Ever 4 hour		//info total sales, active user count
+Sms VC Stock Notifier	Every 1 hour		//Stock yang mulai habis < 15, STATUS_OK_DELAYED, delay 12 hour
+Sms Customer Notifier	Every 1 days		//Notify user iuran jatuh tempo > 20 hari

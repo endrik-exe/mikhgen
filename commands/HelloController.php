@@ -7,6 +7,9 @@
 
 namespace app\commands;
 
+use app\models\Job;
+use app\models\Outbox;
+use app\models\Sales;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -29,6 +32,31 @@ class HelloController extends Controller
     {
         echo $message . "\n";
 
+        return ExitCode::OK;
+    }
+    
+    public function actionTest()
+    {
+        $job = new \app\jobs\NotifyVcStock();
+        
+        $job->onExecute();
+        
+        return ExitCode::OK;
+    }
+    
+    public function actionBatchJob()
+    {
+        $jobs = Job::findAll(['isEnabled' => 1]);
+        
+        foreach ($jobs as $job)
+        {
+            if (!$job->lastRunTime || strtotime($job->nextRunTime) <= strtotime('now'))
+            {
+                echo "\nTry to execute $job->name";
+                $job->execute();
+            }
+        }
+        
         return ExitCode::OK;
     }
 }

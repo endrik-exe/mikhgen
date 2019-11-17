@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$dbsms = require __DIR__ . '/dbsms.php';
 
 $config = [
     'id' => 'basic-console',
@@ -26,6 +27,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'dbsms' => $dbsms,
     ],
     'params' => $params,
     /*

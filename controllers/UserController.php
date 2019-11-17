@@ -44,6 +44,14 @@ class UserController extends MainController
         ]);
     }
     
+    public function actionTest()
+    {
+        return $this->asJson(\app\models\HotspotUser::getUsers([
+            '?limit-uptime' => '1s',
+            '_' => '?#!'
+        ]));
+    }
+    
     public function actionUpdate($id)
     {
         $model = User::findOne($id);

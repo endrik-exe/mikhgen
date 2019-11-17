@@ -43,11 +43,11 @@ class Sales extends ActiveRecord
         7 => 'jul',
         8 => 'aug',
         9 => 'sep',
-        10 => 'okt',
-        11 => 'sep',
+        10 => 'oct',
+        11 => 'nov',
         12 => 'des'
     ];
-    
+        
     /**
      * @inheritdoc
      */
@@ -107,20 +107,24 @@ class Sales extends ActiveRecord
      * @return array sales data
      * @throws Exception2
      */
-    public static function getSalesWith($agenCode = null, $year = null, $month = null, $source = Sales::SOURCE_BOTH)
+    public static function getSalesWith($agenCode = null, $filterYear = null, $filterMonth = null, $filterDay = null, $source = Sales::SOURCE_BOTH)
     {
         $missingMDR = 'vc-251-08.03.19-MDR-AUG-V2J-x1-q18'; //missing
         //$sales = [];
         
         $allAgenCodes = array_map(function($x) { return $x->agenCode; }, User::getAllAgen());
         
-        if (!$year) $year = intval(date('Y'));
+        //NOW ALL PARAMETERS IS OPTIONAL
+        /*if (!$year) $year = intval(date('Y'));
         if (!$month) $month = intval(date('m'));
+        if (!$day) $day = intval(date('d'));*/
         
         $sales = self::find()
-            ->where(['=', 'YEAR(saleDate)', $year])
-            ->andWhere(['=', 'MONTH(saleDate)', $month])
-            ->andWhere(['in', 'agenCode', $allAgenCodes])
+            ->filterwhere(['=', 'YEAR(saleDate)', $filterYear])
+            ->andFilterWhere(['=', 'MONTH(saleDate)', $filterMonth])
+            ->andFilterWhere(['=', 'DAY(saleDate)', $filterDay])
+            ->andFilterWhere(['!=', 'comment', $missingMDR])
+            ->andFilterWhere(['in', 'agenCode', $allAgenCodes])
             ->andFilterWhere(['=', 'agenCode', $agenCode])
             ->all();
         
@@ -131,22 +135,24 @@ class Sales extends ActiveRecord
             {
                 //$monthCode = $month ? self::$monthCodes[intval($month)] : strtolower(date('M'));
                 //$monthCode .= $year ? $year : date('Y');
-                $monthCode = self::$monthCodes[intval($month)].$year;
+                if (!$filterYear || !$filterMonth) $monthCode = null;
+                else $monthCode = self::$monthCodes[intval($filterMonth)].$filterYear;
 
                 //SALEDATE-|-SELLTIME-|-NAME-|-PRICE-|-IP-|-MAC-|-DURATION-|-VCNAME-|-COMMENT
-                $query = $api->comm("/system/script/print", [
+                $queryMikhmon = $api->comm("/system/script/print", [
                     '?comment' => 'mikhmon',
                     '?owner' => $monthCode,
                 ]);
 
                 //return $query;
 
-                foreach ($query as $str)
+                foreach ($queryMikhmon as $str)
                 {
                     $data = explode( '-|-', $str['name']);
                     $commentData = explode('-', $data[8]);
 
                     $saleDate = DateTime::createFromFormat('M/d/Y', $data[0])->format('Y-m-d').' '.$data[1];
+                    
                     $sale = new self([
                         'id' => $str['.id'],
                         'saleDate' => $saleDate,
@@ -175,6 +181,10 @@ class Sales extends ActiveRecord
                         Yii::trace($sale->errors, 'WKWK');
                     }
 
+                    if ($filterYear && date('Y', strtotime($saleDate)) != $filterYear) continue;
+                    if ($filterMonth && date('m', strtotime($saleDate)) != $filterMonth) continue;
+                    if ($filterDay && date('d', strtotime($saleDate)) != $filterDay) continue;
+                    
                     if (in_array($sale->agenCode, $allAgenCodes))
                         $sales[] = $sale;
                 }
@@ -183,12 +193,12 @@ class Sales extends ActiveRecord
                 // name = "$agen.|.$date.|.$time.|.$user.|.$profile.|.$alias.|.$price.|.$comment"
                 //            0    1        2          3               4              5
                 // comment = vc.|.AGEN.|.VC_ALIAS.|.TIMESTAMP.|.xMONTH_GEN_COUNT.|.qGEN_QTY
-                $query = $api->comm("/system/script/print", [
+                $queryMikhgen = $api->comm("/system/script/print", [
                     '?comment' => 'mikhgen_sales',
                     '?owner' => $monthCode
                 ]);
                 
-                foreach ($query as $str)
+                foreach ($queryMikhgen as $str)
                 {
                     $data = explode( '.|.', $str['name'], 8);
                     $commentData = explode('.|.', $data[7]);
@@ -217,6 +227,10 @@ class Sales extends ActiveRecord
                         ]);
                     }
 
+                    if ($filterYear && date('Y', strtotime($saleDate)) != $filterYear) continue;
+                    if ($filterMonth && date('m', strtotime($saleDate)) != $filterMonth) continue;
+                    if ($filterDay && date('d', strtotime($saleDate)) != $filterDay) continue;
+                    
                     if (in_array($sale->agenCode, $allAgenCodes))
                         $sales[] = $sale;
                 }

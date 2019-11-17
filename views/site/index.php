@@ -4,9 +4,9 @@
 use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\web\View;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 $this->title = 'Agen nKing';
 
@@ -65,7 +65,7 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
     <div class="ui form filter">
         <div class="fields">
             <?php IF (Yii::$app->user->identity->roleId == 1) : ?>
-            <div class="field" style="width: 40%">
+            <div class="six wide field">
                 <label>Agen</label>
                 <?= Html::activeDropDownList($model, 'agenCode', ArrayHelper::merge(['' => 'Semua'], 
                 ArrayHelper::map(
@@ -76,18 +76,20 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
                 ]) ?>
             </div>
             <?php ENDIF; ?>
-            <div class="field" style="width: 30%">
+            <div class="four wide field">
                 <label>Tahun</label>
                 <?= Html::activeDropDownList($model, 'year', [
+                    '' => 'Semua',
                     '2019' => '2019',
                     '2020' => '2020',
                 ], [
                     'class' => 'ui dropdown year'
                 ]) ?>
             </div>
-            <div class="field" style="width: 30%">
+            <div class="four wide field">
                 <label>Bulan</label>
-                <?= Html::activeDropDownList($model, 'month', [
+                <?= Html::activeDropDownList($model, 'month', !$model->year ? ['' => 'Tidak Ada'] : [
+                    '' => 'Semua',
                     1 => 'Januari',
                     2 => 'Februari',
                     3 => 'Maret',
@@ -104,8 +106,18 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
                     'class' => 'ui dropdown month'
                 ]) ?>
             </div>
+            <div class="three wide field">
+                <label>Tanggal</label>
+                <?= Html::activeDropDownList($model, 'day', ArrayHelper::merge(['' => 'Semua'], $model->getDayList()), [
+                    'class' => 'ui dropdown month'
+                ]) ?>
+            </div>
             <script>
-                $('.ui.dropdown').dropdown();
+                $('.ui.dropdown').dropdown({
+                    forceSelection: false,
+                    clearable: true
+                });
+
                 ready(() => {
                    setTimeout(() => {
                         $('.ui.dropdown select').change(function(){
@@ -190,21 +202,20 @@ $totalDisetor = $model->thisMonthSale - $totalPendapatan;
         <a class="item" data-tab="tab-2">PENJUALAN HARI INI</a>
     </div>
     <div class="ui bottom attached tab segment active" data-tab="tab-1" style="margin: 0px">
-        <div class="sub header"><?= count($model->activeUsers) ?> Pengguna</div>
-        <div class="ui middle aligned divided list">
-            <?php FOREACH ($model->activeUsers as $user) : ?>
-            <div class="item">
-                <div class="right floated content">
-                    <div class="circular ui red mini icon button"><i class="icon minus"></i></div>
-                </div>
-                <i class="large middle aligned icon" style="min-width: 46px"><?= $user['profileAlias'] ?></i>
-                <div class="content">
-                    <a class="header"><?= $user['user'] ?></a>
-                    <div class="description">Uptime <?= formatTimespan($user['uptime']) ?></div>
-                </div>
-            </div>
-            <?php ENDFOREACH; ?>
-        </div>
+        <?php Pjax::begin([
+            'id' => 'pjax-active-users',
+            'enablePushState' => false,
+        ]) ?>
+        
+        <?php Pjax::end(); ?>
+        <script>
+            ready(function(){
+               repeat(20, 10000, 0, function(){
+                    var data = $('form#form-filter').serialize();
+                    $.pjax.reload({container: "#pjax-active-users", url: "/site/active-users?"+ data, push: false, history: false});
+                }, 10000);
+            });
+        </script>
     </div>
     <div class="ui bottom attached  tab segment" data-tab="tab-2" style="margin: 0px">
        <div class="sub header"><?= count($model->thisDaySales) ?> Voucher</div>

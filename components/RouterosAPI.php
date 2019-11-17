@@ -379,8 +379,12 @@ class RouterosAPI
         if ($this->isIterable($arr)) {
             foreach ($arr as $k => $v) {
                 switch ($k[0]) {
+                    case "_":
+                        $el = "$v";
+                        break;
                     case "?":
                         $el = "$k=".self::serialize($v);
+                        \Yii::trace($el, 'WKWK');
                         break;
                     case "~":
                         $el = "$k~".self::serialize($v);

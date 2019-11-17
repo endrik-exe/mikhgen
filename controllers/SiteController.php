@@ -37,11 +37,16 @@ class SiteController extends MainController
         $model = new DashboardOverview();
         
         //ACTUALL LOAD POST DATA
-        $model->agenCode = Yii::$app->user->identity->agenCode;
         $model->year = intval(date('Y'));
         $model->month = intval(date('m'));
+        //$model->day = intval(date('d'));
         
         $model->load(Yii::$app->request->get());
+        
+        //return $this->asJson($model);
+        
+        //FORCE FILTER
+        if (Yii::$app->user->identity->roleId == 2) $model->agenCode = Yii::$app->user->identity->agenCode;
         
         $model->bonusAdjustment = BonusAdjustment::get($model->agenCode, $model->year, $model->month);
         
@@ -49,11 +54,23 @@ class SiteController extends MainController
             BonusAdjustment::adjust ($model->agenCode, $model->year, $model->month,
                 Yii::$app->request->post('adjust-bonus'));
         
-        //if ($model->month == 6) $model->agenCode .= '-JUN';
-        
-        //return $this->asJson($model->getSales());
+//        return $this->asJson($model->getSales());
         $model->getSales();
         return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionActiveUsers()
+    {
+        $model = new DashboardOverview();
+        
+        $model->load(Yii::$app->request->get());
+        
+        //FORCE FILTER
+        if (Yii::$app->user->identity->roleId == 2) $model->agenCode = Yii::$app->user->identity->agenCode;
+        
+        return $this->renderAjax('p_active-users', [
             'model' => $model,
         ]);
     }

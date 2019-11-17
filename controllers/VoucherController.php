@@ -7,6 +7,7 @@ use app\models\Voucher;
 use app\models\VoucherFactory;
 use app\widgets\Messages;
 use Yii;
+use yii\helpers\Url;
 use function referrer;
 
 /**
@@ -83,8 +84,11 @@ class VoucherController extends MainController
             
             if ($generated)
             {
+                $printUrl = Url::to(['/hotspot-user/print', 'HotspotUser[comment]' => $generated[0]->comment]);
+                
                 Messages::alertViaFlash(NULL, "Voucher berhasil di generate sebanyak ".count($generated)
-                    ."<br>Comment Stamp: <br>".$generated[0]->comment);
+                    ."<br>Comment Stamp: <br>".$generated[0]->comment
+                    ."<br><a class='ui tiny button primary' href='$printUrl' target='_blank'>PRINT SEKARANG</a>");
                 
                 return $this->redirect(referrer());
             }

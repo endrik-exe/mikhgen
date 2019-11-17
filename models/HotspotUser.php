@@ -7,7 +7,6 @@ use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use const DELIMITER;
-use function array_find;
 
 /**
  * User model
@@ -124,10 +123,16 @@ class HotspotUser extends Model
     public function search()
     {
         $filter = $this;
-        return array_filter(self::getUsers(), function($x) use ($filter) {
+        $filterQuery = [
+            '?limit-uptime' => '1s',
+            '_' => '?#!'
+        ];
+        
+        return array_filter(self::getUsers($filterQuery), function($x) use ($filter) {
             return (!$filter->name || strpos($x->name, $filter->name) !== false)
                 && (!$filter->profileName || strpos($x->profileName, $filter->profileName) !== false)
-                && (!$filter->comment || strpos($x->comment, $filter->comment) !== false);
+                && (!$filter->comment || strpos($x->comment, $filter->comment) !== false)
+                && (!$filter->agenCode || strpos($x->agenCode, $filter->agenCode) !== false);
         });
     }
     

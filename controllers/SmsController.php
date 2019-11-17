@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\controllers\MainController;
+use app\models\Outbox;
 use app\models\Sales;
 
 /**
@@ -51,5 +51,35 @@ class SmsController extends MainController
         }
         
         return "";
+    }
+    
+    public function actionTest()
+    {
+        $model = Sales::find()
+            ->where("id = '*125F' AND smsSentDate IS NULL")
+            ->orderBy("saleDate ASC")
+            ->one();
+        
+        if ($model && $model->agen && $model->agen->handphone)
+        {
+            $smsText = "$model->name - $model->agenCode - $model->profileAlias
+Rp. $model->price
+Aktif pada ".date('d/M H:i', strtotime($model->saleDate));
+
+            $outbox = new Outbox([
+                'DestinationNumber' => $model->agen->handphone,
+                'TextDecoded' => $smsText,
+                'CreatorID' => $model->id
+            ]);
+
+            if ($outbox->save())
+            {
+                $model->smsSentDate = date('Y-m-d H:i:s');
+                $model->save();
+            } else
+            {
+                return $this->asJson($outbox->errors);
+            }
+        }
     }
 }

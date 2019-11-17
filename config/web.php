@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$dbsms = require __DIR__ . '/dbsms.php';
 
 $config = [
     'id' => 'basic',
@@ -44,6 +45,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'dbsms' => $dbsms,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -61,14 +63,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '192.168.10.164', '::10'],
+        'allowedIPs' => ['127.0.0.1', '192.168.10.9', '::10'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '192.168.10.164', '::10'],
+        'allowedIPs' => ['127.0.0.1', '192.168.10.9', '::10'],
     ];
 }
 
