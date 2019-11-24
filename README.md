@@ -3,8 +3,13 @@
     <img align="center" src="https://media.giphy.com/media/YoE5bm8H2muwIvc0Dj/giphy.gif">
 </p>
 
-Mikhgen adalah aplikasi Agen Hotspot agar bisa memonitor penghasilannya, aplikasi ini awalnya dibuat hanya untuk menarik laporan sales dari mikrotik yg digenerate oleh mikhmon, namun seiring waktu project ini menjadi mature dan jauh dari ekspektasi awal dan menjadi aplikasi yang semakin lengkap fiturnya dan berjalan sendiri tanpa mikhmon.
+PROJECT ON HOLD
+---------------
+Project ini tidak dilanjutkan lagi, dikarenakan saya sibuk mengembangkan aplikasi lanjutan dari mikhgen yaitu, HOMS, https://homs.endrikexe.com
 
+DISCLAIMER
+----------
+Baik project Mikhgen ataupun HOMS, dibangun dan dibuat dari awal, kita tidak fork aplikasi serupa yang sudah ada, seperti mikhmon atau mikbotam, project kami menggunakan framework mvc dan teknologi-teknologi terbaru sehingga mudah di scale menjadi lebih besar.
 
 PRE REQUISITES
 ------------
